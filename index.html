@@ -420,7 +420,7 @@ kbd{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;paddin
     <div id="log"></div>
   </div>
 
-  <div class="disclaimer">Live compliance, ethical screening, and purification data is provided by Halal.sh. This tool does not issue its own rulings. Not financial advice.</div>
+  <div class="disclaimer">Live compliance, ethical screening, and purification data is provided by the named screening sources. Missing data is shown as unavailable and is never inferred. This tool does not issue its own rulings. Not financial advice.</div>
 </div>
 
 <div class="scrim" id="scrim" onclick="closeSheet()"></div>
@@ -591,6 +591,39 @@ async function resolveTicker(query){
   return null;
 }
 
+function normalizeEthicalPayload(...payloads){
+  const findings=[],seen=new Set();
+  const labelKeys=['areaLabel','category','label','name','title','area','topic','type'];
+  const detailKeys=['summary','details','description','finding','result','involvement','assessment','verdict','status','value'];
+  const add=(label,detail,rawStatus)=>{
+    label=String(label||'').trim();detail=String(detail||'').trim();
+    if(!label||!detail)return;
+    const text=`${rawStatus||''} ${detail}`.toLowerCase();
+    let status='not_found';
+    if(/clear|pass|no direct involvement|no involvement|not involved|none found|approved/.test(text))status='pass';
+    else if(/flag|direct involvement|concern|fail|negative|controvers/.test(text))status='flagged';
+    const key=`${label}|${detail}`.toLowerCase();
+    if(!seen.has(key)){seen.add(key);findings.push({category:label,status,details:detail})}
+  };
+  const walk=(value,path=[],depth=0)=>{
+    if(!value||depth>7)return;
+    if(Array.isArray(value)){value.forEach((item,i)=>walk(item,path.concat(String(i)),depth+1));return}
+    if(typeof value!=='object')return;
+    const labelKey=labelKeys.find(k=>typeof value[k]==='string'&&value[k].trim());
+    const detailKey=detailKeys.find(k=>typeof value[k]==='string'&&value[k].trim()&&k!==labelKey);
+    const directKey=Object.keys(value).find(k=>/direct.?involvement/i.test(k)&&typeof value[k]==='boolean');
+    const flaggedSummary=value.flagged&&typeof value.flagged.summary==='string'?value.flagged.summary:'';
+    const strings=Object.entries(value).filter(([,v])=>typeof v==='string').map(([,v])=>v);
+    const signal=strings.join(' ');
+    const fallbackLabel=path.filter(p=>!/^\d+$/.test(p)).slice(-1)[0];
+    const detail=flaggedSummary||(directKey?(value[directKey]?'Direct Involvement':'No Direct Involvement'):'')||(detailKey?value[detailKey]:'')||(/direct involvement|no involvement|flagged|cleared|concern/i.test(signal)?signal:'');
+    if((labelKey||fallbackLabel)&&detail)add(labelKey?value[labelKey]:fallbackLabel,detail,value.status||value.verdict||value.result);
+    Object.entries(value).forEach(([key,item])=>{if(typeof item==='object'&&key!=='flagged')walk(item,path.concat(key),depth+1)});
+  };
+  payloads.filter(Boolean).forEach(payload=>walk(payload));
+  return findings.slice(0,12);
+}
+
 async function fetchHalalShResults(ticker){
   const base='https://api.halal.sh/app/v1/stock/'+encodeURIComponent(ticker);
   const [stockResp,complianceResp,ethicalResp]=await Promise.all([
@@ -613,27 +646,38 @@ async function fetchHalalShResults(ticker){
     if(r.code==='cash')ratioValues.cash=r.actualPercentage;
     if(r.code==='prohibitedRevenue')ratioValues.prohibited=r.actualPercentage;
   });
-  const areas=ethical?.areas||[];
-  const flagged=areas.filter(a=>a.status==='flagged');
-  const ethicalDetails=flagged.length
-    ? flagged.map(a=>`${a.areaLabel}: ${a.flagged?.summary||a.flagged?.severity||'Flagged concern'}`).join(' ')
-    : ethical?.overallStatus==='cleared'?'No ethical concerns found by Halal.sh.':'Ethical screening is not available.';
+  const ethicalFindings=normalizeEthicalPayload(
+    ethical,
+    stock.ethicalScreening,
+    stock.ethical_screening,
+    stock.ethical,
+    stock.compliance?.ethicalScreening
+  );
+  const ethicalOverall=String(ethical?.overallStatus||ethical?.status||'').toLowerCase();
+  if(!ethicalFindings.length&&ethicalOverall){
+    ethicalFindings.push({
+      category:'Halal.sh Ethical Screening',
+      status:/flag|concern|fail/.test(ethicalOverall)?'flagged':/clear|pass/.test(ethicalOverall)?'pass':'not_found',
+      details:`Halal.sh overall ethical status: ${ethicalOverall}`
+    });
+  }
+  if(!ethicalFindings.length){
+    ethicalFindings.push({
+      category:'Halal.sh Ethical Screening',status:'not_found',
+      details:'Halal.sh did not return ethical details in a readable API format. Verify on Halal.sh.'
+    });
+  }
   return {
     ticker,company:stock.companyName||ticker,suggested_verdict:verdict==='not_found'?'pending':verdict,
     summary:stock.compliance?.verdictSummary||`${stock.companyName||ticker} is ${rawStatus||'unanalyzed'} under Halal.sh's AAOIFI screening.`,
     sources:[{platform:'Halal.sh',verdict,grade:null,ratios:ratioValues,details:ratios||stock.compliance?.verdictSummary||'Halal.sh compliance result'}],
-    ethical_screening:[{
-      category:'Halal.sh Ethical Screening',
-      status:ethical?.overallStatus==='cleared'?'pass':ethical?.overallStatus==='flagged'?'flagged':'not_found',
-      details:ethicalDetails,
-      icon:ethical?.overallStatus==='flagged'?'⚑':'✓'
-    }],
+    ethical_screening:ethicalFindings,
     purification:[{
       platform:'Halal.sh',
-      percentage:purification.required?purification.percentage:0,
+      percentage:purification.required===true?purification.percentage:purification.required===false?0:null,
       per_share_year:null,
       per_1000_year:purification.amountPer1000,
-      details:purification.required?'Non-compliant income to purify':'No purification required'
+      details:purification.required===true?'Non-compliant income to purify':purification.required===false?'No purification required':'Purification data was not returned by Halal.sh. Verify on Halal.sh.'
     }]
   };
 }
