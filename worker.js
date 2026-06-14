@@ -14,16 +14,29 @@ export default {
     const provider = parts[1];
     if (provider === "search") {
       const query = url.searchParams.get("q") || "";
-      const response = await fetch(`${MUSAFFA_URL}/collections/company_profile_collection_new/documents/search?q=${encodeURIComponent(query)}&query_by=name,ticker&query_by_weights=1,2&prioritize_token_position=true&per_page=8&include_fields=id,name,ticker,exchange,cp_country`, {
+      const response = await fetch(`${MUSAFFA_URL}/collections/company_profile_collection_new/documents/search?q=${encodeURIComponent(query)}&query_by=name,ticker&query_by_weights=1,2&prioritize_token_position=true&per_page=40&include_fields=id,name,ticker,exchange,cp_country`, {
         headers: { "X-TYPESENSE-API-KEY": MUSAFFA_KEY },
       });
       const data = await response.json();
+      const companyKey = (value) => String(value || "").toLowerCase()
+        .replace(/&/g, " and ")
+        .replace(/\b(incorporated|inc|corporation|corp|company|co|plc|limited|ltd)\b/g, "")
+        .replace(/[^a-z0-9]+/g, " ")
+        .trim();
+      const queryKey = companyKey(query);
+      const primaryExchanges = new Set(["NASDAQ", "NASDAQGS", "NASDAQGM", "NASDAQCM", "NYSE", "AMEX", "NYSEARCA", "NMS", "NGM", "NCM"]);
+      const score = (result) => {
+        const exactName = companyKey(result.name) === queryKey ? 100 : 0;
+        const plainTicker = /^[A-Z0-9-]+$/.test(result.ticker || "") ? 25 : 0;
+        const primaryExchange = primaryExchanges.has(String(result.exchange || "").toUpperCase()) ? 50 : 0;
+        return exactName + plainTicker + primaryExchange;
+      };
       const results = (data.hits || []).map(({ document }) => ({
         ticker: document.ticker || document.id,
         name: document.name || document.ticker || document.id,
         exchange: document.exchange,
         country: document.cp_country,
-      }));
+      })).sort((a, b) => score(b) - score(a)).slice(0, 12);
       return cors(json({ results }));
     }
 

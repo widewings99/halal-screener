@@ -560,6 +560,9 @@ async function resolveTicker(query){
   const upper=clean.toUpperCase().replace(/\s+/g,'');
   const exactTicker=results.find(r=>String(r.ticker).toUpperCase()===upper);
   const companyKey=value=>String(value||'').toLowerCase().replace(/&/g,' and ').replace(/\b(incorporated|inc|corporation|corp|company|co|plc|limited|ltd)\b/g,'').replace(/[^a-z0-9]+/g,' ').trim();
+  const primaryExchanges=new Set(['NASDAQ','NASDAQGS','NASDAQGM','NASDAQCM','NYSE','AMEX','NYSEARCA','NMS','NGM','NCM']);
+  const resultScore=r=>(companyKey(r.name)===companyKey(clean)?100:0)+(primaryExchanges.has(String(r.exchange||'').toUpperCase())?50:0)+(/^[A-Z0-9-]+$/.test(String(r.ticker||''))?25:0);
+  results.sort((a,b)=>resultScore(b)-resultScore(a));
   const exactNames=results.filter(r=>companyKey(r.name)===companyKey(clean));
   const looksLikeTicker=clean===upper&&!/\s/.test(clean);
   if(looksLikeTicker&&exactTicker)return exactTicker.ticker.toUpperCase();
