@@ -9,250 +9,327 @@
 <meta name="apple-mobile-web-app-title" content="Halal Screen">
 <title>Halal Screen — Shariah Stock Screener</title>
 <link rel="manifest" href='data:application/manifest+json,{"name":"Halal Screen","short_name":"Halal Screen","start_url":"./","display":"standalone","background_color":"%2306231a","theme_color":"%2306231a","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 192 192%22%3E%3Cdefs%3E%3ClinearGradient id=%22g%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%2334d399%22/%3E%3Cstop offset=%221%22 stop-color=%22%230d3d2a%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%22192%22 height=%22192%22 rx=%2244%22 fill=%22url(%23g)%22/%3E%3Cpath d=%22M54 99 l27 27 l57 -63%22 stroke=%22white%22 stroke-width=%2215%22 fill=%22none%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml"}]}'>
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2334d399'/%3E%3Cstop offset='1' stop-color='%230d3d2a'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='192' height='192' rx='44' fill='url(%23g)'/%3E%3Cpath d='M54 99 l27 27 l57 -63' stroke='white' stroke-width='15' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --emerald:#34d399;--ebright:#5eead4;--jade:#10b981;
+  --gold:#e0b349;
+  --halal:#34d399;--halal-glow:rgba(52,211,153,.18);
+  --haram:#fb7185;--haram-glow:rgba(251,113,133,.16);
+  --doubt:#fbbf6b;--doubt-glow:rgba(251,191,107,.16);
+  --pending:#94a3b8;
+  --text:#eafaf2;--text2:#9fc3b3;--text3:#6b9384;
+  --glass:rgba(255,255,255,0.055);--glass2:rgba(255,255,255,0.085);
+  --glass-brd:rgba(255,255,255,0.10);--glass-brd2:rgba(255,255,255,0.18);
+  --radius:20px;--radius-sm:13px;--radius-pill:999px;
+  --ease:cubic-bezier(.34,1.56,.64,1);--ease-s:cubic-bezier(.4,0,.2,1);
+}
+html{-webkit-text-size-adjust:100%}
+body{font-family:'Inter',-apple-system,sans-serif;color:var(--text);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100dvh;background:#06140e;overflow-x:hidden}
+.aurora{position:fixed;inset:0;z-index:-2;background:radial-gradient(120% 90% at 80% -10%,#0d3d2a 0%,transparent 55%),radial-gradient(110% 80% at -10% 10%,#0a2c20 0%,transparent 50%),linear-gradient(160deg,#06231a,#04160f)}
+.blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;mix-blend-mode:screen;will-change:transform}
+.blob.b1{width:46vmax;height:46vmax;top:-16vmax;right:-10vmax;background:radial-gradient(circle,#10b981,transparent 70%);animation:d1 26s var(--ease-s) infinite alternate}
+.blob.b2{width:38vmax;height:38vmax;bottom:-14vmax;left:-12vmax;background:radial-gradient(circle,#0e7490,transparent 70%);animation:d2 32s var(--ease-s) infinite alternate}
+.blob.b3{width:28vmax;height:28vmax;top:40%;left:55%;background:radial-gradient(circle,#15803d,transparent 70%);opacity:.3;animation:d3 38s var(--ease-s) infinite alternate}
+@keyframes d1{to{transform:translate(-8vmax,10vmax) scale(1.12)}}
+@keyframes d2{to{transform:translate(10vmax,-6vmax) scale(1.15)}}
+@keyframes d3{to{transform:translate(-12vmax,-8vmax) scale(.9)}}
+.grain{position:fixed;inset:0;z-index:-1;opacity:.04;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
-  :root{
-    --emerald:#34d399;--emerald-bright:#5eead4;--jade:#10b981;
-    --gold:#e0b349;
-    --halal:#34d399;--halal-glow:rgba(52,211,153,.18);
-    --haram:#fb7185;--haram-glow:rgba(251,113,133,.16);
-    --doubt:#fbbf6b;--doubt-glow:rgba(251,191,107,.16);
-    --pending:#94a3b8;
-    --text:#eafaf2;--text2:#9fc3b3;--text3:#6b9384;
-    --glass:rgba(255,255,255,0.055);
-    --glass2:rgba(255,255,255,0.085);
-    --glass-brd:rgba(255,255,255,0.10);
-    --glass-brd2:rgba(255,255,255,0.18);
-    --radius:20px;--radius-sm:13px;--radius-pill:999px;
-    --sat:env(safe-area-inset-top);
-    --ease:cubic-bezier(.34,1.56,.64,1);
-    --ease-smooth:cubic-bezier(.4,0,.2,1);
-  }
+.app{max-width:820px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 1.5rem) 1.5rem 6rem}
+.glass{background:var(--glass);backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%);border:1px solid var(--glass-brd);box-shadow:0 8px 32px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.07)}
 
-  html{-webkit-text-size-adjust:100%}
-  body{
-    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
-    color:var(--text);font-size:15px;line-height:1.55;
-    -webkit-font-smoothing:antialiased;
-    min-height:100vh;min-height:100dvh;position:relative;overflow-x:hidden;
-    background:#06140e;
-  }
+.masthead{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;animation:fadeDown .7s var(--ease-s) both}
+.brand{display:flex;align-items:center;gap:13px}
+.brand-mark{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,var(--emerald),#0d3d2a);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 6px 20px rgba(16,185,129,.4),inset 0 1px 0 rgba(255,255,255,.3);position:relative;overflow:hidden}
+.brand-mark::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.4) 50%,transparent 70%);transform:translateX(-120%);animation:sheen 5s ease-in-out infinite}
+@keyframes sheen{0%,60%{transform:translateX(-120%)}80%,100%{transform:translateX(120%)}}
+.brand-mark svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;position:relative}
+.brand h1{font-family:'Fraunces',serif;font-size:23px;font-weight:600;letter-spacing:-.01em;line-height:1}
+.brand p{font-size:12px;color:var(--text2);margin-top:3px}
+.icon-btn{width:46px;height:46px;border-radius:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text2);transition:all .25s var(--ease);background:transparent;border:none}
+.icon-btn:hover{color:var(--text);transform:translateY(-2px);background:var(--glass2)}
+.icon-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
-  /* aurora backdrop */
-  .aurora{position:fixed;inset:0;z-index:-2;overflow:hidden;background:
-    radial-gradient(120% 90% at 80% -10%, #0d3d2a 0%, transparent 55%),
-    radial-gradient(110% 80% at -10% 10%, #0a2c20 0%, transparent 50%),
-    linear-gradient(160deg,#06231a 0%,#04160f 100%)}
-  .blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;mix-blend-mode:screen;will-change:transform}
-  .blob.b1{width:46vmax;height:46vmax;top:-16vmax;right:-10vmax;background:radial-gradient(circle,#10b981,transparent 70%);animation:drift1 26s var(--ease-smooth) infinite alternate}
-  .blob.b2{width:38vmax;height:38vmax;bottom:-14vmax;left:-12vmax;background:radial-gradient(circle,#0e7490,transparent 70%);animation:drift2 32s var(--ease-smooth) infinite alternate}
-  .blob.b3{width:30vmax;height:30vmax;top:40%;left:55%;background:radial-gradient(circle,#15803d,transparent 70%);opacity:.32;animation:drift3 38s var(--ease-smooth) infinite alternate}
-  @keyframes drift1{to{transform:translate(-8vmax,10vmax) scale(1.12)}}
-  @keyframes drift2{to{transform:translate(10vmax,-6vmax) scale(1.15)}}
-  @keyframes drift3{to{transform:translate(-12vmax,-8vmax) scale(.9)}}
-  .grain{position:fixed;inset:0;z-index:-1;opacity:.04;pointer-events:none;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+/* command bar */
+.cmd{position:relative;border-radius:var(--radius);padding:1.4rem;margin-bottom:1.4rem;overflow:hidden}
+.cmd-glow{position:absolute;inset:-2px;border-radius:var(--radius);background:conic-gradient(from 0deg,var(--emerald),#0e7490,var(--gold),var(--emerald));opacity:0;filter:blur(14px);transition:opacity .5s;z-index:0;animation:spin 8s linear infinite}
+.cmd.focused .cmd-glow{opacity:.5}
+@keyframes spin{to{transform:rotate(360deg)}}
+.cmd-inner{position:relative;z-index:1}
+.cmd-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--emerald);margin-bottom:11px;display:flex;align-items:center;gap:7px}
+.pulse{width:6px;height:6px;border-radius:50%;background:var(--emerald);box-shadow:0 0 10px var(--emerald);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.4;transform:scale(.8)}}
+.search-wrap{display:flex;gap:10px;align-items:stretch}
+.search-box{position:relative;flex:1;display:flex;align-items:center}
+.search-box>svg{position:absolute;left:16px;width:20px;height:20px;stroke:var(--text3);fill:none;stroke-width:2;pointer-events:none;transition:stroke .25s}
+.cmd.focused .search-box>svg{stroke:var(--emerald)}
+#ticker{width:100%;height:56px;padding:0 16px 0 46px;font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--glass-brd2);border-radius:var(--radius-sm);background:rgba(0,0,0,.22);color:var(--text);outline:none;transition:all .25s}
+#ticker::placeholder{font-family:'Inter',sans-serif;font-weight:500;letter-spacing:.01em;text-transform:none;font-size:15px;color:var(--text3)}
+#ticker:focus{border-color:var(--emerald);background:rgba(0,0,0,.34);box-shadow:0 0 0 4px var(--halal-glow)}
+.go-btn{height:56px;padding:0 22px;border-radius:var(--radius-sm);background:linear-gradient(135deg,var(--emerald),var(--jade));color:#022;border:none;cursor:pointer;font-size:15px;font-weight:700;font-family:inherit;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;transition:transform .2s var(--ease),box-shadow .3s;box-shadow:0 6px 22px rgba(16,185,129,.35)}
+.go-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(16,185,129,.5)}
+.go-btn:active{transform:translateY(0) scale(.97)}
+.go-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.go-btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
+.recent-row{display:flex;align-items:center;gap:7px;margin-top:13px;flex-wrap:wrap;min-height:26px}
+.recent-label{font-size:10.5px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.1em}
+.chip{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;padding:5px 12px;border-radius:var(--radius-pill);background:var(--glass);border:1px solid var(--glass-brd);color:var(--text2);cursor:pointer;transition:all .22s var(--ease)}
+.chip:hover{border-color:var(--emerald);color:var(--emerald);transform:translateY(-2px)}
 
-  .app{max-width:1180px;margin:0 auto;padding:calc(var(--sat) + 1.5rem) 1.5rem 6rem}
+/* results area */
+.results-area{margin-bottom:1.4rem;min-height:20px}
+.loading{text-align:center;padding:3rem 1rem}
+.loading-spinner{width:40px;height:40px;border:3px solid var(--glass-brd2);border-top-color:var(--emerald);border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 16px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.loading p{font-size:14px;color:var(--text2);animation:loadPulse 1.5s ease-in-out infinite}
+@keyframes loadPulse{50%{opacity:.5}}
+.loading .sub{font-size:12px;color:var(--text3);margin-top:5px}
 
-  /* glass primitive */
-  .glass{background:var(--glass);backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%);border:1px solid var(--glass-brd);box-shadow:0 8px 32px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.07)}
+.result-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.result-tk{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700}
+.result-company{font-size:15px;color:var(--text2);font-weight:500}
+.result-summary{font-size:14px;line-height:1.65;color:var(--text);margin-bottom:16px;padding:14px 16px;border-radius:var(--radius-sm);background:rgba(0,0,0,.18);border:1px solid var(--glass-brd)}
 
-  /* masthead */
-  .masthead{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;animation:fadeDown .7s var(--ease-smooth) both}
-  .brand{display:flex;align-items:center;gap:13px}
-  .brand-mark{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,var(--emerald),#0d3d2a);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 6px 20px rgba(16,185,129,.4),inset 0 1px 0 rgba(255,255,255,.3);position:relative;overflow:hidden}
-  .brand-mark::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.4) 50%,transparent 70%);transform:translateX(-120%);animation:sheen 5s ease-in-out infinite}
-  @keyframes sheen{0%,60%{transform:translateX(-120%)}80%,100%{transform:translateX(120%)}}
-  .brand-mark svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;position:relative}
-  .brand h1{font-family:'Fraunces',serif;font-size:23px;font-weight:600;letter-spacing:-0.01em;line-height:1}
-  .brand p{font-size:12px;color:var(--text2);font-weight:500;margin-top:3px;letter-spacing:.01em}
-  .icon-btn{width:46px;height:46px;border-radius:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text2);transition:all .25s var(--ease)}
-  .icon-btn:hover{color:var(--text);transform:translateY(-2px);background:var(--glass2)}
-  .icon-btn:active{transform:scale(.94)}
-  .icon-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sources-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-bottom:14px}
+.source-card{border-radius:var(--radius-sm);padding:15px;position:relative;overflow:hidden;transition:transform .25s var(--ease);animation:cardIn .4s var(--ease-s) both}
+@keyframes cardIn{from{opacity:0;transform:translateY(12px)}}
+.source-card:hover{transform:translateY(-3px)}
+.src-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.src-name{font-size:14px;font-weight:700}
+.src-verdict{font-size:11px;font-weight:700;padding:4px 10px;border-radius:var(--radius-pill);text-transform:uppercase;letter-spacing:.03em}
+.src-verdict.v-halal{background:var(--halal-glow);color:var(--halal)}
+.src-verdict.v-haram{background:var(--haram-glow);color:var(--haram)}
+.src-verdict.v-doubtful{background:var(--doubt-glow);color:var(--doubt)}
+.src-verdict.v-unknown{background:rgba(148,163,184,.14);color:var(--pending)}
+.src-details{font-size:12.5px;color:var(--text2);line-height:1.5;margin-bottom:10px}
+.src-link{font-size:11.5px;font-weight:600;color:var(--ebright);text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:opacity .2s}
+.src-link:hover{opacity:.7}
+.src-link svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 
-  /* two-column grid */
-  .grid{display:grid;grid-template-columns:1fr;gap:1.1rem}
-  @media(min-width:920px){.grid{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:start}.workspace{position:sticky;top:1.5rem}}
+.err-box{text-align:center;padding:2rem;color:var(--text2);border-radius:var(--radius-sm);border:1px dashed var(--glass-brd2)}
+.err-box p{margin-bottom:8px}
+.match-list{display:grid;gap:8px;margin-top:15px;text-align:left}
+.match-btn{width:100%;padding:11px 13px;border:1px solid var(--glass-brd);border-radius:var(--radius-sm);background:var(--glass);color:var(--text);cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:10px;transition:all .2s}
+.match-btn:hover{border-color:var(--emerald);background:var(--halal-glow)}
+.match-ticker{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--emerald);min-width:58px}
+.match-name{font-size:13px;font-weight:600}.match-meta{font-size:10.5px;color:var(--text3);margin-left:auto}
+.free-review{padding:1.5rem;border-radius:var(--radius);margin-bottom:1rem}
+.free-review h2{font-family:'Fraunces',serif;font-size:24px;margin-bottom:7px}
+.free-review p{font-size:13px;color:var(--text2);margin-bottom:14px}
+.review-actions{display:flex;gap:9px;flex-wrap:wrap}
+.review-link{padding:11px 15px;border-radius:var(--radius-sm);background:var(--glass);border:1px solid var(--glass-brd2);color:var(--text);font-size:13px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:7px;transition:all .22s var(--ease)}
+.review-link.primary{background:linear-gradient(135deg,var(--emerald),var(--jade));color:#022;border:none}
+.review-link:hover{transform:translateY(-2px)}
+.review-link svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round}
 
-  .workspace{animation:fadeUp .7s .08s var(--ease-smooth) both}
-  .archive{animation:fadeUp .7s .16s var(--ease-smooth) both}
+/* section headers inside results */
+.res-section{margin-top:18px;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.res-section-icon{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.res-section-icon svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.res-section-icon.compliance{background:var(--halal-glow);color:var(--halal)}
+.res-section-icon.ethical{background:var(--doubt-glow);color:var(--doubt)}
+.res-section h3{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text2)}
+.section-source{margin-left:auto;font-size:11.5px;font-weight:600;color:var(--ebright);text-decoration:none;display:inline-flex;align-items:center;gap:5px}
+.section-source:hover{opacity:.75}
+.section-source svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.more-wrap{text-align:center;margin:12px 0 4px}
+.more-btn{font-size:13px;font-weight:600;padding:9px 22px;border:1px solid var(--glass-brd2);border-radius:var(--radius-pill);background:var(--glass);color:var(--text2);cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:7px;transition:all .25s var(--ease)}
+.more-btn:hover{background:var(--glass2);color:var(--text);transform:translateY(-2px)}
+.more-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s}
+.more-btn.open svg{transform:rotate(180deg)}
+.hidden-sources{display:none}.hidden-sources.show{display:grid}
 
-  /* ===== command bar ===== */
-  .cmd{position:relative;border-radius:var(--radius);padding:1.4rem;margin-bottom:1.1rem;overflow:hidden}
-  .cmd-glow{position:absolute;inset:-2px;border-radius:var(--radius);background:conic-gradient(from 0deg,var(--emerald),#0e7490,var(--gold),var(--emerald));opacity:.0;filter:blur(14px);transition:opacity .5s;z-index:0;animation:spin 8s linear infinite}
-  .cmd.focused .cmd-glow{opacity:.5}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .cmd-inner{position:relative;z-index:1}
-  .cmd-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--emerald);margin-bottom:11px;display:flex;align-items:center;gap:7px}
-  .cmd-label .pulse{width:6px;height:6px;border-radius:50%;background:var(--emerald);box-shadow:0 0 10px var(--emerald);animation:pulse 2s ease-in-out infinite}
-  @keyframes pulse{50%{opacity:.4;transform:scale(.8)}}
-  .search-wrap{display:flex;gap:10px;align-items:stretch}
-  .search-box{position:relative;flex:1;display:flex;align-items:center}
-  .search-box>svg{position:absolute;left:16px;width:20px;height:20px;stroke:var(--text3);fill:none;stroke-width:2;pointer-events:none;transition:stroke .25s}
-  .cmd.focused .search-box>svg{stroke:var(--emerald)}
-  #ticker{width:100%;height:56px;padding:0 16px 0 46px;font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;border:1px solid var(--glass-brd2);border-radius:var(--radius-sm);background:rgba(0,0,0,.22);color:var(--text);outline:none;transition:border-color .25s,box-shadow .25s,background .25s}
-  #ticker::placeholder{font-family:'Inter',sans-serif;font-weight:500;letter-spacing:.01em;text-transform:none;font-size:15px;color:var(--text3)}
-  #ticker:focus{border-color:var(--emerald);background:rgba(0,0,0,.34);box-shadow:0 0 0 4px var(--halal-glow)}
-  .go-btn{height:56px;padding:0 22px;border-radius:var(--radius-sm);background:linear-gradient(135deg,var(--emerald),var(--jade));color:#022;border:none;cursor:pointer;font-size:15px;font-weight:700;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;transition:transform .2s var(--ease),box-shadow .3s;box-shadow:0 6px 22px rgba(16,185,129,.35)}
-  .go-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(16,185,129,.5)}
-  .go-btn:active{transform:translateY(0) scale(.97)}
-  .go-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+/* Halal.sh insight panels */
+.insights-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:12px;margin-top:20px}
+.insight-panel{border-radius:var(--radius);padding:18px;animation:cardIn .4s var(--ease-s) both;min-width:0}
+.insight-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.insight-icon{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.insight-icon svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
+.insight-icon.ethical{color:var(--doubt);background:var(--doubt-glow)}
+.insight-icon.purification{color:var(--ebright);background:var(--halal-glow)}
+.insight-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.07em}
+.insight-source{font-size:10.5px;color:var(--text3);margin-top:1px}
+.ethical-card{border-radius:var(--radius-sm);padding:14px;background:rgba(0,0,0,.16);border:1px solid var(--glass-brd);animation:cardIn .4s var(--ease-s) both}
+.eth-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.eth-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.eth-icon svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.eth-icon.pass{color:var(--halal);background:var(--halal-glow)}
+.eth-icon.flag{color:var(--doubt);background:var(--doubt-glow)}
+.eth-icon.na{color:var(--pending);background:rgba(148,163,184,.14)}
+.eth-name{font-size:13.5px;font-weight:600}
+.eth-status{font-size:12px;font-weight:700;padding:3px 9px;border-radius:var(--radius-pill);margin-left:auto}
+.eth-status.pass{background:var(--halal-glow);color:var(--halal)}
+.eth-status.fail{background:var(--haram-glow);color:var(--haram)}
+.eth-status.flag{background:var(--doubt-glow);color:var(--doubt)}
+.eth-status.na{background:rgba(148,163,184,.14);color:var(--pending)}
+.eth-detail{font-size:12px;color:var(--text2);line-height:1.6}
 
-  .recent-row{display:flex;align-items:center;gap:7px;margin-top:13px;flex-wrap:wrap;min-height:26px}
-  .recent-label{font-size:10.5px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.1em}
-  .chip{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;padding:5px 12px;border-radius:var(--radius-pill);background:var(--glass);border:1px solid var(--glass-brd);color:var(--text2);cursor:pointer;transition:all .22s var(--ease)}
-  .chip:hover{border-color:var(--emerald);color:var(--emerald);transform:translateY(-2px)}
+/* verdict hero banner */
+.verdict-hero{border-radius:var(--radius);padding:2rem 1.5rem;text-align:center;margin-bottom:1.2rem;position:relative;overflow:hidden;animation:fadeUp .5s var(--ease-s) both}
+.verdict-hero::before{content:"";position:absolute;inset:0;opacity:.12}
+.verdict-hero.vh-halal{border:1.5px solid var(--halal)}
+.verdict-hero.vh-halal::before{background:radial-gradient(circle at 50% 0%,var(--halal),transparent 70%)}
+.verdict-hero.vh-haram{border:1.5px solid var(--haram)}
+.verdict-hero.vh-haram::before{background:radial-gradient(circle at 50% 0%,var(--haram),transparent 70%)}
+.verdict-hero.vh-doubtful{border:1.5px solid var(--doubt)}
+.verdict-hero.vh-doubtful::before{background:radial-gradient(circle at 50% 0%,var(--doubt),transparent 70%)}
+.vh-icon{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;position:relative}
+.vh-icon svg{width:30px;height:30px;stroke:currentColor;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.vh-halal .vh-icon{background:var(--halal-glow);color:var(--halal);box-shadow:0 0 30px var(--halal-glow)}
+.vh-haram .vh-icon{background:var(--haram-glow);color:var(--haram);box-shadow:0 0 30px var(--haram-glow)}
+.vh-doubtful .vh-icon{background:var(--doubt-glow);color:var(--doubt);box-shadow:0 0 30px var(--doubt-glow)}
+.vh-label{font-family:'Fraunces',serif;font-size:36px;font-weight:700;letter-spacing:-.01em;position:relative}
+.vh-halal .vh-label{color:var(--halal)}
+.vh-haram .vh-label{color:var(--haram)}
+.vh-doubtful .vh-label{color:var(--doubt)}
+.vh-sub{font-size:13px;color:var(--text2);margin-top:6px;position:relative}
+.vh-consensus{display:flex;justify-content:center;gap:6px;margin-top:12px;flex-wrap:wrap;position:relative}
+.vh-chip{font-size:11px;font-weight:600;padding:4px 10px;border-radius:var(--radius-pill);background:var(--glass);border:1px solid var(--glass-brd);color:var(--text2)}
+.comfort-card{border-radius:var(--radius-sm);padding:15px 17px;margin-bottom:14px;display:flex;align-items:center;gap:14px}
+.comfort-grade{font-family:'JetBrains Mono',monospace;font-size:29px;font-weight:700;color:var(--gold);min-width:54px;text-align:center}
+.comfort-copy strong{font-size:13.5px}.comfort-copy p{font-size:11.5px;color:var(--text2);margin-top:3px}
 
-  /* ===== platforms ===== */
-  .sect-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--text3);margin:0 0 11px 3px;display:flex;align-items:center;justify-content:space-between}
-  .mini-link{font-size:11px;color:var(--emerald);cursor:pointer;font-weight:600;text-transform:none;letter-spacing:0;transition:opacity .2s}
-  .mini-link:hover{opacity:.7}
-  .platforms{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:1.1rem}
-  .platform{position:relative;border-radius:var(--radius-sm);padding:13px 14px;cursor:pointer;user-select:none;overflow:hidden;transition:transform .28s var(--ease),border-color .25s,background .25s}
-  .platform:hover{transform:translateY(-3px)}
-  .platform.on{border-color:var(--emerald);background:linear-gradient(135deg,var(--halal-glow),transparent)}
-  .platform.on::after{content:"";position:absolute;top:11px;right:12px;width:18px;height:18px;border-radius:50%;background:var(--emerald);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' stroke='%23022' stroke-width='3.5' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");background-size:12px;background-position:center;background-repeat:no-repeat;box-shadow:0 0 14px var(--emerald);animation:pop .35s var(--ease)}
-  @keyframes pop{0%{transform:scale(0)}}
-  .p-name{font-size:14px;font-weight:600;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
-  .p-tag{font-size:8.5px;font-weight:700;padding:2px 6px;border-radius:5px;text-transform:uppercase;letter-spacing:.04em}
-  .p-tag.direct{background:var(--halal-glow);color:var(--emerald-bright)}
-  .p-tag.search{background:rgba(255,255,255,.08);color:var(--text2)}
-  .p-desc{font-size:11.5px;color:var(--text2);margin-top:3px;padding-right:18px}
+/* grade badge on source cards */
+.src-grade{font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:700;line-height:1;margin-left:auto;padding:4px 0}
+.src-grade.gr-a{color:var(--halal)}.src-grade.gr-b{color:var(--ebright)}.src-grade.gr-c{color:var(--doubt)}.src-grade.gr-d{color:var(--haram)}.src-grade.gr-f{color:var(--haram)}.src-grade.gr-na{color:var(--pending)}
 
-  /* ===== capture ===== */
-  .capture{border-radius:var(--radius);padding:1.2rem}
-  .verdict-pills{display:flex;gap:8px;margin-bottom:13px}
-  .vpill{flex:1;padding:13px 6px;border-radius:var(--radius-sm);border:1px solid var(--glass-brd);background:var(--glass);cursor:pointer;font-size:13.5px;font-weight:600;color:var(--text2);transition:all .3s var(--ease);display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;overflow:hidden}
-  .vpill svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s var(--ease)}
-  .vpill:hover{transform:translateY(-2px);border-color:var(--glass-brd2)}
-  .vpill:hover svg{transform:scale(1.15)}
-  .vpill.sel-halal{border-color:var(--halal);background:var(--halal-glow);color:var(--halal);box-shadow:0 0 22px var(--halal-glow)}
-  .vpill.sel-doubtful{border-color:var(--doubt);background:var(--doubt-glow);color:var(--doubt);box-shadow:0 0 22px var(--doubt-glow)}
-  .vpill.sel-haram{border-color:var(--haram);background:var(--haram-glow);color:var(--haram);box-shadow:0 0 22px var(--haram-glow)}
-  .vpill[class*=sel-] svg{transform:scale(1.2)}
-  #note{width:100%;padding:12px 14px;border:1px solid var(--glass-brd);border-radius:var(--radius-sm);resize:none;height:74px;font-size:14px;line-height:1.55;background:rgba(0,0,0,.2);color:var(--text);outline:none;font-family:inherit;transition:border-color .25s,box-shadow .25s}
-  #note::placeholder{color:var(--text3)}
-  #note:focus{border-color:var(--emerald);box-shadow:0 0 0 3px var(--halal-glow)}
-  .tag-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:11px;padding:9px 11px;border:1px dashed var(--glass-brd2);border-radius:var(--radius-sm);min-height:42px;transition:border-color .25s}
-  .tag-row:focus-within{border-color:var(--emerald)}
-  .tag-pill{font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:var(--radius-pill);background:var(--halal-glow);color:var(--emerald-bright);display:inline-flex;align-items:center;gap:6px;animation:pop .3s var(--ease)}
-  .tag-pill .x{cursor:pointer;opacity:.6;font-weight:700}
-  .tag-pill .x:hover{opacity:1}
-  #tag-field{flex:1;min-width:100px;border:none;outline:none;background:transparent;font-size:13px;color:var(--text);font-family:inherit;height:26px}
-  #tag-field::placeholder{color:var(--text3)}
-  .capture-actions{display:flex;justify-content:space-between;align-items:center;margin-top:13px;gap:10px}
-  .hint{font-size:12px;color:var(--text3)}
-  .save-btn{height:44px;padding:0 20px;border-radius:var(--radius-sm);background:var(--glass2);border:1px solid var(--glass-brd2);color:var(--text);cursor:pointer;font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:8px;transition:all .25s var(--ease);white-space:nowrap}
-  .save-btn:hover{background:var(--emerald);color:#022;border-color:var(--emerald);transform:translateY(-2px);box-shadow:0 8px 24px rgba(16,185,129,.4)}
-  .save-btn:active{transform:scale(.97)}
-  .save-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+/* purification section */
+.purif-card{border-radius:var(--radius-sm);padding:14px;text-align:left;background:rgba(0,0,0,.16);border:1px solid var(--glass-brd);animation:cardIn .4s var(--ease-s) both}
+.purif-platform{font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.purif-pct{font-family:'JetBrains Mono',monospace;font-size:32px;font-weight:700;color:var(--ebright);line-height:1}
+.purif-pct .pct-sign{font-size:18px;color:var(--text3)}
+.purif-label{font-size:11.5px;color:var(--text3);margin-top:6px}
+.purif-amount{font-size:12px;color:var(--text2);margin-top:7px}
+.purif-na{font-size:14px;color:var(--text3)}
+.retry-btn{font-size:13px;font-weight:600;padding:8px 18px;border:1px solid var(--glass-brd2);border-radius:var(--radius-sm);background:var(--glass);color:var(--text);cursor:pointer;font-family:inherit;transition:all .22s var(--ease)}
+.retry-btn:hover{background:var(--emerald);color:#022;border-color:var(--emerald)}
 
-  /* ===== stats ===== */
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:1rem}
-  .stat{border-radius:var(--radius-sm);padding:13px 8px;text-align:center;cursor:pointer;border:1px solid var(--glass-brd);background:var(--glass);transition:all .28s var(--ease)}
-  .stat:hover{transform:translateY(-3px);border-color:var(--glass-brd2)}
-  .stat.active{border-color:var(--emerald);background:var(--halal-glow)}
-  .stat-n{font-family:'JetBrains Mono',monospace;font-size:25px;font-weight:700;line-height:1}
-  .stat-n.g{color:var(--halal)}.stat-n.r{color:var(--haram)}.stat-n.a{color:var(--doubt)}
-  .stat-l{font-size:10.5px;color:var(--text2);margin-top:5px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+/* capture */
+.capture{border-radius:var(--radius);padding:1.2rem;margin-bottom:1.5rem;display:none}
+.capture.show{display:block;animation:fadeUp .5s var(--ease-s) both}
+.capt-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--text3);margin-bottom:9px}
+.verdict-pills{display:flex;gap:8px;margin-bottom:13px}
+.vpill{flex:1;padding:13px 6px;border-radius:var(--radius-sm);border:1px solid var(--glass-brd);background:var(--glass);cursor:pointer;font-size:13.5px;font-weight:600;color:var(--text2);transition:all .3s var(--ease);display:flex;flex-direction:column;align-items:center;gap:6px}
+.vpill svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s var(--ease)}
+.vpill:hover{transform:translateY(-2px);border-color:var(--glass-brd2)}
+.vpill:hover svg{transform:scale(1.15)}
+.vpill.sel-halal{border-color:var(--halal);background:var(--halal-glow);color:var(--halal);box-shadow:0 0 22px var(--halal-glow)}
+.vpill.sel-doubtful{border-color:var(--doubt);background:var(--doubt-glow);color:var(--doubt);box-shadow:0 0 22px var(--doubt-glow)}
+.vpill.sel-haram{border-color:var(--haram);background:var(--haram-glow);color:var(--haram);box-shadow:0 0 22px var(--haram-glow)}
+#note{width:100%;padding:14px 16px;border:1px solid var(--glass-brd);border-radius:var(--radius-sm);resize:vertical;min-height:160px;height:200px;max-height:600px;font-size:14px;line-height:1.6;background:rgba(0,0,0,.2);color:var(--text);outline:none;font-family:inherit;transition:border-color .25s}
+#note::placeholder{color:var(--text3)}
+#note:focus{border-color:var(--emerald)}
+.tag-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:11px;padding:9px 11px;border:1px dashed var(--glass-brd2);border-radius:var(--radius-sm);min-height:42px;transition:border-color .25s}
+.tag-row:focus-within{border-color:var(--emerald)}
+.tag-pill{font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:var(--radius-pill);background:var(--halal-glow);color:var(--ebright);display:inline-flex;align-items:center;gap:6px;animation:pop .3s var(--ease)}
+@keyframes pop{0%{transform:scale(0)}}
+.tag-pill .x{cursor:pointer;opacity:.6;font-weight:700}.tag-pill .x:hover{opacity:1}
+#tag-field{flex:1;min-width:100px;border:none;outline:none;background:transparent;font-size:13px;color:var(--text);font-family:inherit;height:26px}
+#tag-field::placeholder{color:var(--text3)}
+.capt-actions{display:flex;justify-content:space-between;align-items:center;margin-top:13px}
+.hint{font-size:12px;color:var(--text3)}
+.save-btn{height:44px;padding:0 20px;border-radius:var(--radius-sm);background:var(--glass2);border:1px solid var(--glass-brd2);color:var(--text);cursor:pointer;font-size:14px;font-weight:600;font-family:inherit;display:inline-flex;align-items:center;gap:8px;transition:all .25s var(--ease);white-space:nowrap}
+.save-btn:hover{background:var(--emerald);color:#022;border-color:var(--emerald);transform:translateY(-2px);box-shadow:0 8px 24px rgba(16,185,129,.4)}
+.save-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 
-  .log-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
-  .log-head h2{font-family:'Fraunces',serif;font-size:20px;font-weight:600;letter-spacing:-0.01em}
+/* log */
+.log-section{margin-top:1rem}
+.log-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.log-head h2{font-family:'Fraunces',serif;font-size:20px;font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:1rem}
+.stat{border-radius:var(--radius-sm);padding:13px 8px;text-align:center;cursor:pointer;border:1px solid var(--glass-brd);background:var(--glass);transition:all .28s var(--ease)}
+.stat:hover{transform:translateY(-3px);border-color:var(--glass-brd2)}
+.stat.active{border-color:var(--emerald);background:var(--halal-glow)}
+.stat-n{font-family:'JetBrains Mono',monospace;font-size:25px;font-weight:700;line-height:1}
+.stat-n.g{color:var(--halal)}.stat-n.r{color:var(--haram)}.stat-n.a{color:var(--doubt)}
+.stat-l{font-size:10.5px;color:var(--text2);margin-top:5px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.filter-bar{display:flex;gap:9px;margin-bottom:1rem}
+.filter-search{flex:1;position:relative;display:flex;align-items:center}
+.filter-search svg{position:absolute;left:13px;width:16px;height:16px;stroke:var(--text3);fill:none;stroke-width:2;pointer-events:none}
+#log-q{width:100%;height:44px;padding:0 13px 0 37px;border:1px solid var(--glass-brd);border-radius:var(--radius-sm);background:rgba(0,0,0,.2);color:var(--text);outline:none;font-size:14px;font-family:inherit}
+#log-q::placeholder{color:var(--text3)}
+#log-q:focus{border-color:var(--emerald)}
+#sort-sel{height:44px;padding:0 11px;border:1px solid var(--glass-brd);border-radius:var(--radius-sm);background:rgba(6,20,14,.9);color:var(--text);font-size:13px;font-family:inherit;cursor:pointer;outline:none}
+.tag-filter-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
+.tf{font-size:11.5px;font-weight:600;padding:5px 11px;border-radius:var(--radius-pill);background:var(--glass);border:1px solid var(--glass-brd);color:var(--text2);cursor:pointer;transition:all .22s var(--ease)}
+.tf:hover{transform:translateY(-2px)}.tf.on{background:var(--emerald);color:#022;border-color:var(--emerald)}
 
-  .filter-bar{display:flex;gap:9px;margin-bottom:1rem}
-  .filter-search{flex:1;position:relative;display:flex;align-items:center}
-  .filter-search svg{position:absolute;left:13px;width:16px;height:16px;stroke:var(--text3);fill:none;stroke-width:2;pointer-events:none}
-  #log-q{width:100%;height:44px;padding:0 13px 0 37px;border:1px solid var(--glass-brd);border-radius:var(--radius-sm);background:rgba(0,0,0,.2);color:var(--text);outline:none;font-size:14px;font-family:inherit;transition:border-color .25s}
-  #log-q::placeholder{color:var(--text3)}
-  #log-q:focus{border-color:var(--emerald)}
-  #sort-sel{height:44px;padding:0 11px;border:1px solid var(--glass-brd);border-radius:var(--radius-sm);background:rgba(6,20,14,.9);color:var(--text);font-size:13px;font-family:inherit;cursor:pointer;outline:none;transition:border-color .25s}
-  #sort-sel:focus{border-color:var(--emerald)}
+.empty{text-align:center;padding:3rem 1rem;color:var(--text2);border-radius:var(--radius);border:1px dashed var(--glass-brd)}
+.empty svg{width:34px;height:34px;stroke:var(--text3);fill:none;stroke-width:1.5;margin-bottom:13px}
 
-  .tag-filter-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
-  .tf{font-size:11.5px;font-weight:600;padding:5px 11px;border-radius:var(--radius-pill);background:var(--glass);border:1px solid var(--glass-brd);color:var(--text2);cursor:pointer;transition:all .22s var(--ease)}
-  .tf:hover{transform:translateY(-2px);color:var(--text)}
-  .tf.on{background:var(--emerald);color:#022;border-color:var(--emerald)}
+.card{border-radius:var(--radius-sm);padding:15px 17px;margin-bottom:10px;position:relative;overflow:hidden;transition:transform .3s var(--ease);animation:cardIn .5s var(--ease-s) both}
+.card:hover{transform:translateY(-3px)}
+.card.star::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(var(--gold),#a9760f);box-shadow:0 0 14px var(--gold)}
+.card-top{display:flex;align-items:center;gap:10px;margin-bottom:9px;flex-wrap:wrap}
+.card-tk{font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:700;letter-spacing:.04em}
+.badge{font-size:11px;font-weight:700;padding:4px 11px;border-radius:var(--radius-pill);display:inline-flex;align-items:center;gap:5px;text-transform:uppercase;letter-spacing:.03em}
+.badge svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
+.badge.halal{background:var(--halal-glow);color:var(--halal)}
+.badge.haram{background:var(--haram-glow);color:var(--haram)}
+.badge.doubtful{background:var(--doubt-glow);color:var(--doubt)}
+.badge.pending{background:rgba(148,163,184,.14);color:var(--pending)}
+.star-btn{margin-left:auto;cursor:pointer;color:var(--text3);display:flex;padding:3px;transition:all .25s var(--ease);background:none;border:none}
+.star-btn:hover{transform:scale(1.2) rotate(8deg)}
+.star-btn.on{color:var(--gold)}
+.star-btn.on svg{fill:var(--gold);filter:drop-shadow(0 0 6px var(--gold))}
+.star-btn svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.card-date{font-size:11px;color:var(--text3)}
+.card-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:9px}
+.ctag{font-size:10.5px;font-weight:600;padding:3px 9px;border-radius:var(--radius-pill);background:rgba(255,255,255,.06);color:var(--text2);cursor:pointer}
+.card-note{font-size:13.5px;color:var(--text);line-height:1.55;background:rgba(0,0,0,.22);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:11px;white-space:pre-wrap;word-break:break-word;border:1px solid var(--glass-brd)}
+.card-src{font-size:12px;color:var(--text2);margin-bottom:11px;padding:8px 10px;background:rgba(0,0,0,.12);border-radius:8px;line-height:1.5}
+.card-acts{display:flex;gap:7px;flex-wrap:wrap}
+.act{font-size:12px;font-weight:600;padding:7px 13px;border:1px solid var(--glass-brd);border-radius:var(--radius-sm);background:var(--glass);color:var(--text2);cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .25s var(--ease);font-family:inherit}
+.act:hover{color:var(--text);transform:translateY(-2px);border-color:var(--glass-brd2)}
+.act.primary:hover{background:var(--emerald);color:#022;border-color:var(--emerald)}
+.act.danger:hover{color:#fff;background:var(--haram);border-color:var(--haram)}
+.act svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
-  .empty{text-align:center;padding:3rem 1rem;color:var(--text2);border-radius:var(--radius);border:1px dashed var(--glass-brd)}
-  .empty svg{width:34px;height:34px;stroke:var(--text3);fill:none;stroke-width:1.5;margin-bottom:13px}
-  .empty p{font-size:14px}
+/* sheets */
+.scrim{position:fixed;inset:0;background:rgba(2,10,7,.6);backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .3s;z-index:50}
+.scrim.show{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:50%;bottom:0;transform:translateX(-50%) translateY(100%);width:100%;max-width:560px;border-radius:24px 24px 0 0;padding:1.6rem 1.5rem calc(1.8rem + env(safe-area-inset-bottom));z-index:51;max-height:85vh;overflow-y:auto;transition:transform .4s var(--ease-s);background:rgba(10,30,22,.82);backdrop-filter:blur(30px) saturate(160%);-webkit-backdrop-filter:blur(30px) saturate(160%);border:1px solid var(--glass-brd2);border-bottom:none}
+.sheet.show{transform:translateX(-50%) translateY(0)}
+.sheet-grip{width:40px;height:4px;border-radius:2px;background:var(--glass-brd2);margin:0 auto 1.2rem}
+.sheet h3{font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin-bottom:5px}
+.sheet .sub{font-size:13px;color:var(--text2);margin-bottom:1.3rem}
+.sheet-row{display:flex;gap:9px;margin-bottom:9px}
+.sheet-btn{flex:1;height:50px;border-radius:var(--radius-sm);border:1px solid var(--glass-brd2);background:var(--glass);color:var(--text);cursor:pointer;font-size:14px;font-weight:600;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:9px;transition:all .25s var(--ease)}
+.sheet-btn:hover{background:var(--glass2);transform:translateY(-2px)}
+.sheet-btn.accent{background:linear-gradient(135deg,var(--emerald),var(--jade));color:#022;border:none;box-shadow:0 6px 20px rgba(16,185,129,.4)}
+.sheet-btn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+kbd{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;padding:3px 8px;background:rgba(0,0,0,.3);border-radius:6px;border:1px solid var(--glass-brd2);color:var(--ebright)}
+.kbd-list{font-size:13.5px}
+.kbd-list div{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--glass-brd)}
+.kbd-list div:last-child{border:none}
 
-  /* ===== cards ===== */
-  .card{border-radius:var(--radius-sm);padding:15px 17px;margin-bottom:10px;position:relative;overflow:hidden;transition:transform .3s var(--ease),border-color .25s;animation:cardIn .5s var(--ease-smooth) both}
-  @keyframes cardIn{from{opacity:0;transform:translateY(14px)}}
-  .card:hover{transform:translateY(-3px)}
-  .card.star::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(var(--gold),#a9760f);box-shadow:0 0 14px var(--gold)}
-  .card-top{display:flex;align-items:center;gap:10px;margin-bottom:9px;flex-wrap:wrap}
-  .card-tk{font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:700;letter-spacing:0.04em}
-  .badge{font-size:11px;font-weight:700;padding:4px 11px;border-radius:var(--radius-pill);display:inline-flex;align-items:center;gap:5px;text-transform:uppercase;letter-spacing:.03em}
-  .badge svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
-  .badge.halal{background:var(--halal-glow);color:var(--halal)}
-  .badge.haram{background:var(--haram-glow);color:var(--haram)}
-  .badge.doubtful{background:var(--doubt-glow);color:var(--doubt)}
-  .badge.pending{background:rgba(148,163,184,.14);color:var(--pending)}
-  .star-btn{margin-left:auto;cursor:pointer;color:var(--text3);display:flex;padding:3px;transition:all .25s var(--ease)}
-  .star-btn svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-  .star-btn:hover{transform:scale(1.2) rotate(8deg)}
-  .star-btn.on{color:var(--gold)}
-  .star-btn.on svg{fill:var(--gold);filter:drop-shadow(0 0 6px var(--gold))}
-  .card-date{font-size:11px;color:var(--text3);font-weight:500}
-  .card-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:9px}
-  .ctag{font-size:10.5px;font-weight:600;padding:3px 9px;border-radius:var(--radius-pill);background:rgba(255,255,255,.06);color:var(--text2);cursor:pointer;transition:all .2s}
-  .ctag:hover{color:var(--emerald)}
-  .card-note{font-size:13.5px;color:var(--text);line-height:1.55;background:rgba(0,0,0,.22);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:11px;white-space:pre-wrap;word-break:break-word;border:1px solid var(--glass-brd)}
-  .card-plats{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:11px}
-  .cplat{font-size:10.5px;padding:3px 9px;border-radius:var(--radius-pill);border:1px solid var(--glass-brd);color:var(--text2)}
-  .card-acts{display:flex;gap:7px;flex-wrap:wrap}
-  .act{font-size:12px;font-weight:600;padding:7px 13px;border:1px solid var(--glass-brd);border-radius:var(--radius-sm);background:var(--glass);color:var(--text2);cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .25s var(--ease)}
-  .act:hover{color:var(--text);transform:translateY(-2px);border-color:var(--glass-brd2)}
-  .act.primary:hover{background:var(--emerald);color:#022;border-color:var(--emerald)}
-  .act.danger:hover{color:#fff;background:var(--haram);border-color:var(--haram)}
-  .act svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.toast{position:fixed;bottom:calc(1.8rem + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(14px);padding:12px 22px;border-radius:var(--radius-pill);font-size:13.5px;font-weight:600;opacity:0;pointer-events:none;transition:all .3s var(--ease);z-index:60;background:rgba(10,30,22,.9);backdrop-filter:blur(20px);border:1px solid var(--glass-brd2);color:var(--text);box-shadow:0 10px 40px rgba(0,0,0,.5)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-  /* ===== sheets ===== */
-  .scrim{position:fixed;inset:0;background:rgba(2,10,7,.6);backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .3s;z-index:50}
-  .scrim.show{opacity:1;pointer-events:auto}
-  .sheet{position:fixed;left:50%;bottom:0;transform:translateX(-50%) translateY(100%);width:100%;max-width:560px;border-radius:24px 24px 0 0;padding:1.6rem 1.5rem calc(1.8rem + env(safe-area-inset-bottom));z-index:51;max-height:85vh;overflow-y:auto;transition:transform .4s var(--ease-smooth);background:rgba(10,30,22,.82);backdrop-filter:blur(30px) saturate(160%);-webkit-backdrop-filter:blur(30px) saturate(160%);border:1px solid var(--glass-brd2);border-bottom:none}
-  .sheet.show{transform:translateX(-50%) translateY(0)}
-  .sheet-grip{width:40px;height:4px;border-radius:2px;background:var(--glass-brd2);margin:0 auto 1.2rem}
-  .sheet h3{font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin-bottom:5px}
-  .sheet .sub{font-size:13px;color:var(--text2);margin-bottom:1.3rem}
-  .sheet-row{display:flex;gap:9px;margin-bottom:9px}
-  .sheet-btn{flex:1;height:50px;border-radius:var(--radius-sm);border:1px solid var(--glass-brd2);background:var(--glass);color:var(--text);cursor:pointer;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:9px;transition:all .25s var(--ease)}
-  .sheet-btn:hover{background:var(--glass2);transform:translateY(-2px)}
-  .sheet-btn.accent{background:linear-gradient(135deg,var(--emerald),var(--jade));color:#022;border:none;box-shadow:0 6px 20px rgba(16,185,129,.4)}
-  .sheet-btn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-  .kbd-list{font-size:13.5px}
-  .kbd-list div{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--glass-brd)}
-  .kbd-list div:last-child{border:none}
-  kbd{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;padding:3px 8px;background:rgba(0,0,0,.3);border-radius:6px;border:1px solid var(--glass-brd2);color:var(--emerald-bright)}
+.disclaimer{margin-top:2.5rem;padding-top:1.4rem;border-top:1px solid var(--glass-brd);font-size:11.5px;color:var(--text3);line-height:1.6;text-align:center}
 
-  .toast{position:fixed;bottom:calc(1.8rem + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(14px);padding:12px 22px;border-radius:var(--radius-pill);font-size:13.5px;font-weight:600;opacity:0;pointer-events:none;transition:all .3s var(--ease);z-index:60;background:rgba(10,30,22,.9);backdrop-filter:blur(20px);border:1px solid var(--glass-brd2);color:var(--text);box-shadow:0 10px 40px rgba(0,0,0,.5)}
-  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-12px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}}
 
-  .disclaimer{margin-top:2.5rem;padding-top:1.4rem;border-top:1px solid var(--glass-brd);font-size:11.5px;color:var(--text3);line-height:1.6;text-align:center}
-
-  @keyframes fadeDown{from{opacity:0;transform:translateY(-12px)}}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}}
-
-  @media(max-width:520px){
-    .app{padding:calc(var(--sat) + 1.1rem) 1.1rem 6rem}
-    .platforms{grid-template-columns:1fr 1fr}
-    .stats{gap:6px}.stat-n{font-size:21px}
-    .go-btn span{display:none}.go-btn{padding:0 18px}
-    .brand h1{font-size:20px}
-  }
-  @media(prefers-reduced-motion:reduce){
-    *,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.08s!important}
-    .blob{animation:none}.cmd-glow{animation:none}
-  }
+@media(max-width:520px){
+  .app{padding:calc(env(safe-area-inset-top)+1.1rem) 1.1rem 6rem}
+  .stats{gap:6px}.stat-n{font-size:21px}
+  .go-btn span{display:none}.go-btn{padding:0 18px}
+  .brand h1{font-size:20px}
+  .sources-grid{grid-template-columns:1fr}
+  .insights-grid{grid-template-columns:1fr;gap:10px;margin-top:16px}
+  .insight-panel{padding:14px}
+  .purif-pct{font-size:28px}
+}
+@media(min-width:521px) and (max-width:760px){.insights-grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.08s!important}
+  .blob{animation:none}.cmd-glow{animation:none}
+}
 </style>
 </head>
 <body>
@@ -260,270 +337,555 @@
 <div class="grain"></div>
 
 <div class="app">
-
   <div class="masthead">
     <div class="brand">
       <div class="brand-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
-      <div>
-        <h1>Halal Screen</h1>
-        <p>Screen · verdict · log · revisit</p>
-      </div>
+      <div><h1>Halal Screen</h1><p>Live Halal.sh compliance screening</p></div>
     </div>
-    <button class="icon-btn glass" onclick="openSheet('menu')" aria-label="Menu">
+    <button class="icon-btn" onclick="openSheet('menu')" aria-label="Menu">
       <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
     </button>
   </div>
 
-  <div class="grid">
-
-    <div class="workspace">
-      <div class="cmd glass">
-        <div class="cmd-glow"></div>
-        <div class="cmd-inner">
-          <div class="cmd-label"><span class="pulse"></span>Screen a ticker</div>
-          <div class="search-wrap">
-            <div class="search-box">
-              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-              <input type="text" id="ticker" placeholder="AAPL, MSFT, 2222.SR…" autocomplete="off" autocapitalize="characters" spellcheck="false" />
-            </div>
-            <button class="go-btn" onclick="screenNow()">
-              <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              <span>Screen</span>
-            </button>
-          </div>
-          <div class="recent-row" id="recent-row"></div>
-        </div>
-      </div>
-
-      <div class="sect-label">
-        <span>Platforms to open</span>
-        <span class="mini-link" onclick="toggleAllPlatforms()" id="sel-all-link">Select all</span>
-      </div>
-      <div class="platforms" id="platforms"></div>
-
-      <div class="capture glass">
-        <div class="verdict-pills" id="vpills">
-          <div class="vpill" data-v="halal" onclick="pickVerdict('halal')"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>Halal</div>
-          <div class="vpill" data-v="doubtful" onclick="pickVerdict('doubtful')"><svg viewBox="0 0 24 24"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path></svg>Doubtful</div>
-          <div class="vpill" data-v="haram" onclick="pickVerdict('haram')"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>Haram</div>
-        </div>
-        <textarea id="note" placeholder="Notes — e.g. Passes AAOIFI debt ratio (28%). Zoya compliant, Islamicly doubtful. Revisit after Q3 earnings."></textarea>
-        <div class="tag-row" id="tag-row" onclick="document.getElementById('tag-field').focus()">
-          <input type="text" id="tag-field" placeholder="Add tags (press Enter)…" autocomplete="off" />
-        </div>
-        <div class="capture-actions">
-          <span class="hint" id="capture-hint">Set a verdict, then save</span>
-          <button class="save-btn" onclick="saveEntry()">
-            <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-            Save
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div class="archive">
-      <div class="log-head"><h2>Your log</h2></div>
-
-      <div class="stats" id="stats">
-        <div class="stat" data-f="all" onclick="setFilter('all')"><div class="stat-n" id="s-all">0</div><div class="stat-l">All</div></div>
-        <div class="stat" data-f="halal" onclick="setFilter('halal')"><div class="stat-n g" id="s-halal">0</div><div class="stat-l">Halal</div></div>
-        <div class="stat" data-f="doubtful" onclick="setFilter('doubtful')"><div class="stat-n a" id="s-doubtful">0</div><div class="stat-l">Doubtful</div></div>
-        <div class="stat" data-f="haram" onclick="setFilter('haram')"><div class="stat-n r" id="s-haram">0</div><div class="stat-l">Haram</div></div>
-      </div>
-
-      <div class="filter-bar">
-        <div class="filter-search">
+  <div class="cmd glass">
+    <div class="cmd-glow"></div>
+    <div class="cmd-inner">
+      <div class="cmd-label"><span class="pulse"></span>Screen a stock</div>
+      <div class="search-wrap">
+        <div class="search-box">
           <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          <input type="text" id="log-q" placeholder="Search ticker, notes, tags…" oninput="render()" />
+          <input type="text" id="ticker" placeholder="Enter ticker or company — AAPL, Apple, Google…" autocomplete="off" autocapitalize="characters" spellcheck="false" />
         </div>
-        <select id="sort-sel" onchange="render()">
-          <option value="recent">Newest</option>
-          <option value="oldest">Oldest</option>
-          <option value="az">A–Z</option>
-          <option value="starred">Starred</option>
-        </select>
+        <button class="go-btn" id="go-btn" onclick="doScreen()">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <span>Screen</span>
+        </button>
       </div>
-
-      <div class="tag-filter-row" id="tag-filters"></div>
-      <div id="log"></div>
+      <div class="recent-row" id="recent-row"></div>
     </div>
-
   </div>
 
-  <div class="disclaimer">
-    This tool helps you organise your own screening across third-party platforms. It does not itself issue Shariah rulings or financial advice. Verdicts you save are your own records. Always confirm compliance on the source platforms.
+  <div class="results-area" id="results-area"></div>
+
+  <div class="capture glass" id="capture">
+    <div class="capt-label">Your verdict</div>
+    <div class="verdict-pills">
+      <div class="vpill" data-v="halal" onclick="pickVerdict('halal')"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>Halal</div>
+      <div class="vpill" data-v="doubtful" onclick="pickVerdict('doubtful')"><svg viewBox="0 0 24 24"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path></svg>Doubtful</div>
+      <div class="vpill" data-v="haram" onclick="pickVerdict('haram')"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>Haram</div>
+    </div>
+    <textarea id="note" placeholder="Add your notes — ratios, concerns, sources you checked…"></textarea>
+    <div class="tag-row" id="tag-row" onclick="document.getElementById('tag-field').focus()">
+      <input type="text" id="tag-field" placeholder="Add tags (Enter)…" autocomplete="off" />
+    </div>
+    <div class="capt-actions">
+      <span class="hint" id="capt-hint">Set verdict, then save</span>
+      <button class="save-btn" onclick="saveEntry()">
+        <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+        Save
+      </button>
+    </div>
   </div>
 
+  <div class="log-section">
+    <div class="log-head"><h2>Your log</h2></div>
+    <div class="stats">
+      <div class="stat" data-f="all" onclick="setFilter('all')"><div class="stat-n" id="s-all">0</div><div class="stat-l">All</div></div>
+      <div class="stat" data-f="halal" onclick="setFilter('halal')"><div class="stat-n g" id="s-halal">0</div><div class="stat-l">Halal</div></div>
+      <div class="stat" data-f="doubtful" onclick="setFilter('doubtful')"><div class="stat-n a" id="s-doubtful">0</div><div class="stat-l">Doubtful</div></div>
+      <div class="stat" data-f="haram" onclick="setFilter('haram')"><div class="stat-n r" id="s-haram">0</div><div class="stat-l">Haram</div></div>
+    </div>
+    <div class="filter-bar">
+      <div class="filter-search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><input type="text" id="log-q" placeholder="Search ticker, notes, tags…" oninput="renderLog()"></div>
+      <select id="sort-sel" onchange="renderLog()"><option value="recent">Newest</option><option value="oldest">Oldest</option><option value="az">A–Z</option><option value="starred">Starred</option></select>
+    </div>
+    <div class="tag-filter-row" id="tag-filters"></div>
+    <div id="log"></div>
+  </div>
+
+  <div class="disclaimer">Live compliance, ethical screening, and purification data is provided by Halal.sh. This tool does not issue its own rulings. Not financial advice.</div>
 </div>
 
 <div class="scrim" id="scrim" onclick="closeSheet()"></div>
-
 <div class="sheet" id="sheet-menu">
   <div class="sheet-grip"></div>
   <h3>Menu</h3>
-  <p class="sub">Your data lives only on this device. Back it up to move it between phone and laptop.</p>
-  <div class="sheet-row">
-    <button class="sheet-btn accent" onclick="backup()"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>Back up data</button>
-  </div>
+  <p class="sub">Your log data lives on this device. Back it up to move between devices.</p>
+  <div class="sheet-row"><button class="sheet-btn accent" onclick="backup()"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>Back up data</button></div>
   <div class="sheet-row">
     <button class="sheet-btn" onclick="document.getElementById('restore-file').click()"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>Restore</button>
-    <button class="sheet-btn" onclick="exportCSV()"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>Export CSV</button>
+    <button class="sheet-btn" onclick="exportCSV()"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>CSV</button>
   </div>
-  <input type="file" id="restore-file" accept=".json" style="display:none" onchange="restore(event)" />
-  <div class="sheet-row">
-    <button class="sheet-btn" onclick="openSheet('keys')"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M6 12h.01M10 12h.01M14 12h.01M18 12h.01M7 16h10"></path></svg>Keyboard shortcuts</button>
-  </div>
-  <div class="sheet-row">
-    <button class="sheet-btn" style="color:var(--haram)" onclick="clearAll()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path></svg>Clear all data</button>
-  </div>
+  <input type="file" id="restore-file" accept=".json" style="display:none" onchange="restoreData(event)">
+  <div class="sheet-row"><button class="sheet-btn" onclick="openSheet('keys')"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"></rect></svg>Keyboard shortcuts</button></div>
+  <div class="sheet-row"><button class="sheet-btn" style="color:var(--haram)" onclick="clearAll()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path></svg>Clear all data</button></div>
 </div>
-
 <div class="sheet" id="sheet-keys">
   <div class="sheet-grip"></div>
-  <h3>Keyboard shortcuts</h3>
-  <p class="sub">Faster on a laptop.</p>
+  <h3>Shortcuts</h3><p class="sub">Desktop power-user keys.</p>
   <div class="kbd-list">
-    <div><span>Focus ticker search</span><kbd>/</kbd></div>
-    <div><span>Screen current ticker</span><kbd>Enter</kbd></div>
-    <div><span>Mark Halal</span><kbd>H</kbd></div>
-    <div><span>Mark Doubtful</span><kbd>D</kbd></div>
-    <div><span>Mark Haram</span><kbd>X</kbd></div>
-    <div><span>Save to log</span><kbd>Ctrl/Cmd + S</kbd></div>
-    <div><span>Close panel</span><kbd>Esc</kbd></div>
+    <div><span>Focus search</span><kbd>/</kbd></div>
+    <div><span>Screen ticker</span><kbd>Enter</kbd></div>
+    <div><span>Mark Halal / Doubtful / Haram</span><kbd>H</kbd> <kbd>D</kbd> <kbd>X</kbd></div>
+    <div><span>Save</span><kbd>Ctrl/⌘ S</kbd></div>
   </div>
 </div>
-
 <div class="toast" id="toast"></div>
 
 <script>
-const PLATFORMS=[
-  {id:'zoya',      name:'Zoya',      desc:'Best UX · AAOIFI · global',   mode:'direct', url:'https://zoya.finance/stocks/{lt}'},
-  {id:'musaffa',   name:'Musaffa',   desc:'120k stocks · deep reports',  mode:'search', url:'https://musaffa.com/stock-screener?search={t}'},
-  {id:'islamicly', name:'Islamicly', desc:'30k+ · free · global',         mode:'search', url:'https://www.islamicly.com/?s={t}'},
-  {id:'finispia',  name:'Finispia',  desc:'5 methodologies at once',      mode:'search', url:'https://finispia.com/en/search?q={t}'},
-  {id:'halalsh',   name:'Halal.sh',  desc:'Clean & fast',                 mode:'search', url:'https://halal.sh/?q={t}'},
-  {id:'tabadulat', name:'Tabadulat', desc:'UAE-friendly',                 mode:'search', url:'https://tabadulat.com/'},
-];
-const DEFAULT_SEL=['zoya','musaffa','islamicly','finispia'];
+const API_BASE=(()=>{
+  const fromUrl=new URLSearchParams(location.search).get('api');
+  if(fromUrl){localStorage.setItem('hs_api_base',fromUrl.replace(/\/$/,''));return fromUrl.replace(/\/$/,'')}
+  return localStorage.getItem('hs_api_base')||'';
+})();
+const LINKS={
+  zoya:t=>`https://zoya.finance/stocks/${t.toLowerCase()}`,
+  musaffa:t=>`https://musaffa.com/stock-screener?search=${t}`,
+  islamicly:t=>`https://www.islamicly.com/?s=${t}`,
+  finispia:t=>`https://finispia.com/en/search?q=${t}`,
+  halalsh:t=>`https://halal.sh/stock/${encodeURIComponent(t)}`,
+};
 
-let sel=new Set(DEFAULT_SEL);
-let log=[];let recents=[];
-let draftVerdict='pending';let draftTags=[];
-let filter='all';let tagFilter=null;
+let logData=[],recents=[],draftVerdict='pending',draftTags=[],filter='all',tagFilter=null,lastResult=null;
+const LS={log:'hs4_log',rec:'hs4_rec'};
+function load(){try{const a=localStorage.getItem(LS.log);if(a)logData=JSON.parse(a)}catch(e){}try{const a=localStorage.getItem(LS.rec);if(a)recents=JSON.parse(a)}catch(e){}}
+function persist(){try{localStorage.setItem(LS.log,JSON.stringify(logData))}catch(e){}try{localStorage.setItem(LS.rec,JSON.stringify(recents))}catch(e){}}
+let toastT;function toast(m){const e=document.getElementById('toast');e.textContent=m;e.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove('show'),2200)}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 
-const LS={log:'hs_log_v3',sel:'hs_sel_v3',rec:'hs_rec_v3'};
-function load(){
-  try{const a=localStorage.getItem(LS.log);if(a)log=JSON.parse(a)}catch(e){}
-  try{const a=localStorage.getItem(LS.sel);if(a)sel=new Set(JSON.parse(a))}catch(e){}
-  try{const a=localStorage.getItem(LS.rec);if(a)recents=JSON.parse(a)}catch(e){}
-}
-function persist(){
-  try{localStorage.setItem(LS.log,JSON.stringify(log))}catch(e){}
-  try{localStorage.setItem(LS.sel,JSON.stringify([...sel]))}catch(e){}
-  try{localStorage.setItem(LS.rec,JSON.stringify(recents))}catch(e){}
-}
-
-let toastT;
-function toast(m){const e=document.getElementById('toast');e.textContent=m;e.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove('show'),2000)}
-
-function renderPlatforms(){
-  document.getElementById('platforms').innerHTML=PLATFORMS.map(p=>`
-    <div class="platform glass ${sel.has(p.id)?'on':''}" onclick="togglePlat('${p.id}')">
-      <div class="p-name">${p.name}<span class="p-tag ${p.mode==='direct'?'direct':'search'}">${p.mode==='direct'?'direct':'search'}</span></div>
-      <div class="p-desc">${p.desc}</div>
-    </div>`).join('');
-  document.getElementById('sel-all-link').textContent=sel.size===PLATFORMS.length?'Reset':'Select all';
-}
-function togglePlat(id){sel.has(id)?sel.delete(id):sel.add(id);persist();renderPlatforms()}
-function toggleAllPlatforms(){sel=(sel.size===PLATFORMS.length)?new Set(DEFAULT_SEL):new Set(PLATFORMS.map(p=>p.id));persist();renderPlatforms()}
-
-function cleanTicker(t){return t.trim().toUpperCase().replace(/\s+/g,'')}
-function screenNow(){
-  const t=cleanTicker(document.getElementById('ticker').value);
-  if(!t){toast('Enter a ticker first');document.getElementById('ticker').focus();return}
-  const chosen=PLATFORMS.filter(p=>sel.has(p.id));
-  if(!chosen.length){toast('Select at least one platform');return}
-  chosen.forEach(p=>{const url=p.url.replace('{lt}',encodeURIComponent(t.toLowerCase())).replace('{t}',encodeURIComponent(t));window.open(url,'_blank','noopener')});
-  addRecent(t);
-  document.getElementById('capture-hint').textContent=`Reviewing ${t} — set a verdict`;
-}
+/* ===== recents ===== */
 function addRecent(t){recents=recents.filter(x=>x!==t);recents.unshift(t);recents=recents.slice(0,6);persist();renderRecents()}
-function renderRecents(){
-  const row=document.getElementById('recent-row');
-  if(!recents.length){row.innerHTML='';return}
-  row.innerHTML=`<span class="recent-label">Recent</span>`+recents.map(t=>`<span class="chip" onclick="quickFill('${t}')">${t}</span>`).join('');
-}
-function quickFill(t){document.getElementById('ticker').value=t;screenNow()}
+function renderRecents(){const r=document.getElementById('recent-row');if(!recents.length){r.innerHTML='';return}r.innerHTML=`<span class="recent-label">Recent</span>`+recents.map(t=>`<span class="chip" onclick="quickScreen('${t}')">${t}</span>`).join('')}
+function quickScreen(t){document.getElementById('ticker').value=t;doScreen()}
 
-function pickVerdict(v){
-  draftVerdict=(draftVerdict===v)?'pending':v;
-  document.querySelectorAll('.vpill').forEach(el=>{el.className='vpill'+(el.dataset.v===draftVerdict?' sel-'+draftVerdict:'')});
+/* ===== AI SCREENING ===== */
+async function apiCall(body,retries=3){
+  for(let i=0;i<retries;i++){
+    const resp=await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)
+    });
+    if(resp.status===429&&i<retries-1){
+      const wait=Math.pow(2,i+1)*2000;
+      document.querySelector('.loading p').textContent=`Rate limited — retrying in ${wait/1000}s…`;
+      await new Promise(r=>setTimeout(r,wait));
+      continue;
+    }
+    if(!resp.ok){const t=await resp.text().catch(()=>'');throw new Error(`API ${resp.status}: ${t.slice(0,200)}`);}
+    return await resp.json();
+  }
+  throw new Error('Rate limited after multiple retries. Wait a minute and try again.');
 }
-function renderTagRow(){
-  const row=document.getElementById('tag-row');const field=document.getElementById('tag-field');
-  row.querySelectorAll('.tag-pill').forEach(e=>e.remove());
-  draftTags.forEach((t,i)=>{const span=document.createElement('span');span.className='tag-pill';span.innerHTML=`${escapeHtml(t)}<span class="x" onclick="removeDraftTag(${i});event.stopPropagation()">✕</span>`;row.insertBefore(span,field)});
+function repairJSON(s){
+  s=s.replace(/```json|```/g,'').trim();
+  try{return JSON.parse(s)}catch(e){}
+  /* try closing truncated JSON */
+  let fixed=s;
+  const open=s.split('{').length-1,close=s.split('}').length-1;
+  const openA=s.split('[').length-1,closeA=s.split(']').length-1;
+  if(s.lastIndexOf('"')>s.lastIndexOf(':')){
+    const last=s.lastIndexOf('"');
+    const before=s.lastIndexOf('"',last-1);
+    if(before>-1)fixed=s.slice(0,last+1);
+  }
+  for(let j=0;j<openA-closeA;j++)fixed+=']';
+  for(let j=0;j<open-close;j++)fixed+='}';
+  try{return JSON.parse(fixed)}catch(e){}
+  /* last resort: extract what we can */
+  const tkMatch=s.match(/"ticker"\s*:\s*"([^"]+)"/);
+  const coMatch=s.match(/"company"\s*:\s*"([^"]+)"/);
+  const sumMatch=s.match(/"summary"\s*:\s*"((?:[^"\\]|\\.)*)"/);
+  const sources=[];
+  const srcRe=/"platform"\s*:\s*"([^"]+)"[^}]*?"verdict"\s*:\s*"([^"]+)"[^}]*?"details"\s*:\s*"((?:[^"\\]|\\.)*)"/g;
+  let m;while((m=srcRe.exec(s))!==null)sources.push({platform:m[1],verdict:m[2],details:m[3]});
+  if(sources.length||tkMatch)return{ticker:tkMatch?tkMatch[1]:'',company:coMatch?coMatch[1]:'',sources,ethical_screening:[],summary:sumMatch?sumMatch[1]:'Partial results recovered.',suggested_verdict:sources.length?sources[0].verdict:'pending'};
+  throw new Error('Could not parse AI response');
 }
-function removeDraftTag(i){draftTags.splice(i,1);renderTagRow()}
+function normalizeHalalShSections(result){
+  const defaultEthical=[
+    ['Conventional Finance','🏦'],['Alcohol','🍷'],['Tobacco','🚭'],['Gambling','🎰'],
+    ['Adult Entertainment','🔞'],['Weapons & Defense','🛡️'],['Pork & Non-Halal','🐖'],['Entertainment & Media','🎬']
+  ];
+  if(!Array.isArray(result.ethical_screening)||!result.ethical_screening.length){
+    result.ethical_screening=defaultEthical.map(([category,icon])=>({
+      category,icon,status:'not_found',details:'Not available from the latest Halal.sh search. Open Halal.sh to verify.'
+    }));
+  }
+  if(!Array.isArray(result.purification)||!result.purification.length){
+    result.purification=[{
+      platform:'Halal.sh',percentage:null,per_share_year:null,per_1000_year:null,
+      details:'No purification figure was returned. Open Halal.sh to verify.'
+    }];
+  }
+  return result;
+}
+async function doScreen(){
+  const query=document.getElementById('ticker').value.trim();
+  if(!query){toast('Enter a ticker or company name');document.getElementById('ticker').focus();return}
+  const btn=document.getElementById('go-btn');
+  btn.disabled=true;
+  const area=document.getElementById('results-area');
+  area.innerHTML=`<div class="loading"><div class="loading-spinner"></div><p>Finding ${esc(query)}…</p><div class="sub">Resolving the company and checking screening sources</div></div>`;
+  document.getElementById('capture').classList.remove('show');
 
+  if(!API_BASE){
+    area.innerHTML=`<div class="err-box"><p><strong>Connect the free screening service first.</strong></p><p style="font-size:12px;color:var(--text3)">Open this page once with <code>?api=https://YOUR-WORKER.workers.dev</code> added to the address.</p></div>`;
+    btn.disabled=false;
+    return;
+  }
+
+  try{
+    const ticker=await resolveTicker(query);
+    if(!ticker){btn.disabled=false;return}
+    document.getElementById('ticker').value=ticker;
+    addRecent(ticker);
+    area.innerHTML=`<div class="loading"><div class="loading-spinner"></div><p>Screening ${esc(ticker)}…</p><div class="sub">Checking compliance &amp; ethical screening across Zoya, Musaffa, Halal.sh &amp; Islamicly</div></div>`;
+    const result=await fetchScreeningResults(ticker);
+    lastResult=result;
+    renderResults(result,ticker);
+  }catch(err){
+    console.error(err);
+    const is429=err.message.includes('429')||err.message.includes('Rate');
+    area.innerHTML=`<div class="err-box"><p>Couldn't fetch results for <strong>${esc(query)}</strong>.</p><p style="font-size:12px;color:var(--text3)">${is429?'Rate limited — wait about 30 seconds and try again.':esc(err.message)}</p><button class="retry-btn" onclick="doScreen()">Try again</button></div>`;
+  }
+  btn.disabled=false;
+}
+
+async function resolveTicker(query){
+  const clean=query.trim();
+  const area=document.getElementById('results-area');
+  const resp=await fetch(API_BASE+'/api/search?q='+encodeURIComponent(clean));
+  if(!resp.ok)throw new Error('Company-name search service is unavailable. Check the connected screening service.');
+  const data=await resp.json();
+  const results=data.results||[];
+  const upper=clean.toUpperCase().replace(/\s+/g,'');
+  const exactTicker=results.find(r=>String(r.ticker).toUpperCase()===upper);
+  const companyKey=value=>String(value||'').toLowerCase().replace(/&/g,' and ').replace(/\b(incorporated|inc|corporation|corp|company|co|plc|limited|ltd)\b/g,'').replace(/[^a-z0-9]+/g,' ').trim();
+  const exactNames=results.filter(r=>companyKey(r.name)===companyKey(clean));
+  const looksLikeTicker=clean===upper&&!/\s/.test(clean);
+  if(looksLikeTicker&&exactTicker)return exactTicker.ticker.toUpperCase();
+  if(exactNames.length===1)return exactNames[0].ticker.toUpperCase();
+  if(results.length===1)return results[0].ticker.toUpperCase();
+  if(!results.length&&/^[A-Za-z0-9.:-]{1,15}$/.test(clean))return upper;
+  if(!results.length)throw new Error('No listed company matched that name');
+  area.innerHTML=`<div class="err-box"><p><strong>Choose the company you mean</strong></p><div class="match-list">${results.map(r=>`<button class="match-btn" onclick="quickScreen('${esc(r.ticker)}')"><span class="match-ticker">${esc(r.ticker)}</span><span class="match-name">${esc(r.name)}</span><span class="match-meta">${esc(r.exchange||r.country||'')}</span></button>`).join('')}</div></div>`;
+  return null;
+}
+
+async function fetchHalalShResults(ticker){
+  const base='https://api.halal.sh/app/v1/stock/'+encodeURIComponent(ticker);
+  const [stockResp,complianceResp,ethicalResp]=await Promise.all([
+    fetch(API_BASE+'/api/halalsh/'+encodeURIComponent(ticker)),
+    fetch(API_BASE+'/api/halalsh/'+encodeURIComponent(ticker)+'/compliance'),
+    fetch(API_BASE+'/api/halalsh/'+encodeURIComponent(ticker)+'/ethical-screening')
+  ]);
+  if(!stockResp.ok)throw new Error(stockResp.status===404?'Ticker not found on Halal.sh':`Halal.sh returned ${stockResp.status}`);
+  const stock=await stockResp.json();
+  const compliance=complianceResp.ok?await complianceResp.json():null;
+  const ethical=ethicalResp.ok?await ethicalResp.json():null;
+  const decision=compliance?.summary?.investmentDecision||{};
+  const purification=decision.purification||{};
+  const rawStatus=decision.status||stock.compliance?.status;
+  const verdict=rawStatus==='compliant'?'halal':rawStatus==='non-compliant'?'haram':'not_found';
+  const ratios=(compliance?.summary?.keyRatios||[]).map(r=>`${r.name}: ${Number(r.actualPercentage).toFixed(2)}%`).join(' · ');
+  const ratioValues={};
+  (compliance?.summary?.keyRatios||[]).forEach(r=>{
+    if(r.code==='debt')ratioValues.debt=r.actualPercentage;
+    if(r.code==='cash')ratioValues.cash=r.actualPercentage;
+    if(r.code==='prohibitedRevenue')ratioValues.prohibited=r.actualPercentage;
+  });
+  const areas=ethical?.areas||[];
+  const flagged=areas.filter(a=>a.status==='flagged');
+  const ethicalDetails=flagged.length
+    ? flagged.map(a=>`${a.areaLabel}: ${a.flagged?.summary||a.flagged?.severity||'Flagged concern'}`).join(' ')
+    : ethical?.overallStatus==='cleared'?'No ethical concerns found by Halal.sh.':'Ethical screening is not available.';
+  return {
+    ticker,company:stock.companyName||ticker,suggested_verdict:verdict==='not_found'?'pending':verdict,
+    summary:stock.compliance?.verdictSummary||`${stock.companyName||ticker} is ${rawStatus||'unanalyzed'} under Halal.sh's AAOIFI screening.`,
+    sources:[{platform:'Halal.sh',verdict,grade:null,ratios:ratioValues,details:ratios||stock.compliance?.verdictSummary||'Halal.sh compliance result'}],
+    ethical_screening:[{
+      category:'Halal.sh Ethical Screening',
+      status:ethical?.overallStatus==='cleared'?'pass':ethical?.overallStatus==='flagged'?'flagged':'not_found',
+      details:ethicalDetails,
+      icon:ethical?.overallStatus==='flagged'?'⚑':'✓'
+    }],
+    purification:[{
+      platform:'Halal.sh',
+      percentage:purification.required?purification.percentage:0,
+      per_share_year:null,
+      per_1000_year:purification.amountPer1000,
+      details:purification.required?'Non-compliant income to purify':'No purification required'
+    }]
+  };
+}
+
+async function fetchScreeningResults(ticker){
+  const settled=await Promise.allSettled([
+    fetchHalalShResults(ticker),
+    fetch(API_BASE+'/api/zoya/'+encodeURIComponent(ticker)).then(r=>r.ok?r.json():Promise.reject()),
+    fetch(API_BASE+'/api/musaffa/'+encodeURIComponent(ticker)).then(r=>r.ok?r.json():Promise.reject())
+  ]);
+  const halalsh=settled[0].status==='fulfilled'?settled[0].value:null;
+  const zoya=settled[1].status==='fulfilled'?settled[1].value:{platform:'Zoya',verdict:'not_found',grade:null,details:'Zoya result unavailable.'};
+  const musaffa=settled[2].status==='fulfilled'?settled[2].value:{platform:'Musaffa',verdict:'not_found',grade:null,details:'Musaffa result unavailable.'};
+  if(musaffa.grade!==null&&musaffa.grade!==undefined&&!isNaN(Number(musaffa.grade))){
+    musaffa.rating=Number(musaffa.grade);musaffa.grade=null;
+  }
+  if(!musaffa.ratios&&musaffa.details){
+    const nums=[...musaffa.details.matchAll(/:\s*([\d.]+)%/g)].map(m=>Number(m[1]));
+    if(nums.length>=3)musaffa.ratios={prohibited:Math.max(0,100-nums[0]),debt:nums[1],cash:nums[2]};
+  }
+  const result=halalsh||{
+    ticker,company:ticker,suggested_verdict:'pending',
+    summary:`Available screening results for ${ticker}. Halal.sh has no detailed analysis for this ticker.`,
+    sources:[],ethical_screening:[],purification:[]
+  };
+  result.sources.push(zoya,musaffa,{
+    platform:'Islamicly',verdict:'not_found',grade:null,
+    details:'Free screening is available in Islamicly, but its verdict requires an Islamicly user session.'
+  });
+  const available=result.sources.filter(s=>['halal','haram','doubtful'].includes(s.verdict));
+  if(!available.length)throw new Error('No screening provider returned a result for this ticker');
+  if(result.suggested_verdict==='pending'){
+    const counts={halal:0,haram:0,doubtful:0};
+    available.forEach(s=>counts[s.verdict]++);
+    result.suggested_verdict=Object.keys(counts).sort((a,b)=>counts[b]-counts[a])[0];
+  }
+  result.comfort=calculateComfortGrade(result);
+  return result;
+}
+
+function calculateComfortGrade(result){
+  if(result.suggested_verdict==='haram')return{grade:'F',score:0,detail:'One or more Shariah screens failed.'};
+  const source=result.sources.find(s=>s.ratios&&Number.isFinite(Number(s.ratios.debt))&&Number.isFinite(Number(s.ratios.cash))&&Number.isFinite(Number(s.ratios.prohibited)));
+  if(!source)return null;
+  const usage=Math.max(Number(source.ratios.debt)/30,Number(source.ratios.cash)/30,Number(source.ratios.prohibited)/5)*100;
+  const grade=usage<=20?'A+':usage<=40?'A':usage<=60?'B+':usage<=75?'B':usage<=90?'C':usage<=100?'D':'F';
+  const score=Math.max(0,Math.round(100-usage));
+  return{grade,score,detail:`Based on the closest financial ratio to its AAOIFI limit. ${score}% threshold headroom.`};
+}
+
+function renderFreeReview(ticker){
+  const area=document.getElementById('results-area');
+  const ext='<svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>';
+  area.innerHTML=`<div class="free-review glass">
+    <h2>${esc(ticker)} is ready to review</h2>
+    <p>This free standalone version cannot copy live results from other websites automatically. Open Halal.sh for the compliance verdict, Ethical Screening, and Income Purification, then compare the other screeners.</p>
+    <div class="review-actions">
+      <a class="review-link primary" href="${LINKS.halalsh(ticker)}" target="_blank" rel="noopener">Open full Halal.sh analysis ${ext}</a>
+      <a class="review-link" href="${LINKS.zoya(ticker)}" target="_blank" rel="noopener">Zoya ${ext}</a>
+      <a class="review-link" href="${LINKS.musaffa(ticker)}" target="_blank" rel="noopener">Musaffa ${ext}</a>
+      <a class="review-link" href="${LINKS.islamicly(ticker)}" target="_blank" rel="noopener">Islamicly ${ext}</a>
+      <a class="review-link" href="${LINKS.finispia(ticker)}" target="_blank" rel="noopener">Finispia ${ext}</a>
+    </div>
+  </div>
+  <div class="res-section"><div class="res-section-icon ethical"><svg viewBox="0 0 24 24"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path></svg></div><h3>Ethical Screening</h3><a class="section-source" href="${LINKS.halalsh(ticker)}" target="_blank" rel="noopener">View on Halal.sh ${ext}</a></div>
+  <div class="ethical-grid">${[
+    ['Conventional Finance','🏦'],['Alcohol','🍷'],['Tobacco','🚭'],['Gambling','🎰'],
+    ['Adult Entertainment','🔞'],['Weapons & Defense','🛡️'],['Pork & Non-Halal','🐖'],['Entertainment & Media','🎬']
+  ].map(([name,icon],i)=>`<div class="ethical-card glass" style="animation-delay:${i*45}ms"><div class="eth-top"><span class="eth-icon">${icon}</span><span class="eth-name">${name}</span><span class="eth-status na">Check</span></div><div class="eth-detail">Open Halal.sh to see the current finding.</div></div>`).join('')}</div>
+  <div class="res-section" style="margin-top:22px"><div class="res-section-icon compliance"><svg viewBox="0 0 24 24"><path d="M12 2v6m0 0l3-3m-3 3L9 5"></path><path d="M5 12h14"></path><path d="M12 16v6m0 0l3-3m-3 3l-3-3"></path></svg></div><h3>Share Purification</h3><a class="section-source" href="${LINKS.halalsh(ticker)}#purification-section" target="_blank" rel="noopener">View on Halal.sh ${ext}</a></div>
+  <div class="purif-grid"><div class="purif-card glass"><div class="purif-platform">Halal.sh</div><div class="purif-na">Open analysis to view</div><div class="purif-label">Income purification percentage and donation amount</div></div></div>`;
+  const cap=document.getElementById('capture');
+  cap.classList.add('show');
+  document.getElementById('capt-hint').textContent=`Record your verified verdict for ${ticker}`;
+  document.getElementById('note').value=`Verify ${ticker} on Halal.sh and the linked screening platforms.`;
+}
+
+function renderResults(r,ticker){
+  const area=document.getElementById('results-area');
+  const vclass=v=>{const m={halal:'v-halal',haram:'v-haram',doubtful:'v-doubtful'};return m[v]||'v-unknown'};
+  const vlabel=v=>{const m={halal:'Halal',haram:'Haram',doubtful:'Doubtful',not_found:'Not found'};return m[v]||v};
+  const VICON_MAP={halal:'<polyline points="20 6 9 17 4 12"></polyline>',haram:'<line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>',doubtful:'<path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path>'};
+
+  /* === DETERMINE CONSENSUS VERDICT === */
+  let consensus='doubtful';
+  if(r.suggested_verdict&&r.suggested_verdict!=='pending'&&r.suggested_verdict!=='not_found'){
+    consensus=r.suggested_verdict;
+  }else if(r.sources&&r.sources.length){
+    const counts={halal:0,haram:0,doubtful:0};
+    r.sources.forEach(s=>{if(counts[s.verdict]!==undefined)counts[s.verdict]++});
+    if(counts.halal>=counts.haram&&counts.halal>=counts.doubtful)consensus='halal';
+    else if(counts.haram>=counts.halal&&counts.haram>=counts.doubtful)consensus='haram';
+    else consensus='doubtful';
+  }
+
+  let html='';
+
+  /* === 1. VERDICT HERO BANNER === */
+  const cLabel={halal:'Halal',haram:'Haram',doubtful:'Doubtful'}[consensus]||'Doubtful';
+  const srcCount=r.sources?r.sources.filter(s=>s.verdict!=='not_found').length:0;
+  const matchCount=r.sources?r.sources.filter(s=>s.verdict===consensus).length:0;
+  html+=`<div class="verdict-hero glass vh-${consensus}">
+    <div class="vh-icon"><svg viewBox="0 0 24 24">${VICON_MAP[consensus]||VICON_MAP.doubtful}</svg></div>
+    <div class="vh-label">${cLabel}</div>
+    <div class="vh-sub">${esc(r.company||ticker)} · ${matchCount} of ${srcCount} source${srcCount!==1?'s':''} agree</div>
+    ${r.sources?`<div class="vh-consensus">${r.sources.filter(s=>s.verdict!=='not_found').map(s=>`<span class="vh-chip">${esc(s.platform)}: ${vlabel(s.verdict)}</span>`).join('')}</div>`:''}
+  </div>`;
+  if(r.comfort){
+    html+=`<div class="comfort-card glass"><div class="comfort-grade">${esc(r.comfort.grade)}</div><div class="comfort-copy"><strong>Shariah Comfort Grade · ${r.comfort.score}/100</strong><p>${esc(r.comfort.detail)} This measures financial threshold headroom, not degrees of halalness.</p></div></div>`;
+  }
+
+  /* === 2. COMPLIANCE SCREENING WITH GRADES === */
+  if(r.sources&&r.sources.length){
+    const PRIMARY=['zoya','musaffa','halalsh','halal','islamicly'];
+    const norm=s=>s.toLowerCase().replace(/[\.\s\-]/g,'');
+    const primary=[];const secondary=[];
+    const matched=new Set();
+    PRIMARY.forEach(key=>{
+      const found=r.sources.find(s=>norm(s.platform).includes(key)&&!matched.has(s));
+      if(found){primary.push(found);matched.add(found)}
+    });
+    r.sources.forEach(s=>{if(!matched.has(s))secondary.push(s)});
+
+    html+=`<div class="res-section"><div class="res-section-icon compliance"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div><h3>Compliance Screening</h3></div>`;
+
+    const gradeClass=g=>{
+      if(!g||g==='null'||g==='N/A')return 'gr-na';
+      const l=String(g).charAt(0).toUpperCase();
+      if(l==='A')return 'gr-a';if(l==='B')return 'gr-b';if(l==='C')return 'gr-c';
+      return 'gr-d';
+    };
+
+    const renderCard=(s,i,delay)=>{
+      const grade=s.grade&&s.grade!=='null'&&s.grade!=='N/A'?s.grade:null;
+      const rating=s.rating!==null&&s.rating!==undefined?`${s.rating}/5`:null;
+      return `<div class="source-card glass" style="animation-delay:${delay}ms">
+        <div class="src-top">
+          <span class="src-name">${esc(s.platform)}</span>
+          <span class="src-verdict ${vclass(s.verdict)}">${vlabel(s.verdict)}</span>
+          ${grade?`<span class="src-grade ${gradeClass(grade)}">${esc(grade)}</span>`:''}
+          ${rating?`<span class="src-grade gr-b" title="Musaffa Halal Rating">${esc(rating)}</span>`:''}
+        </div>
+        <div class="src-details">${esc(s.details||'No additional details')}</div>
+      </div>`;
+    };
+
+    html+=`<div class="sources-grid">`;
+    primary.forEach((s,i)=>{html+=renderCard(s,i,i*80)});
+    html+=`</div>`;
+
+    if(secondary.length){
+      html+=`<div class="more-wrap"><button class="more-btn" onclick="toggleMore(this)" data-count="${secondary.length}"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg><span>${secondary.length} more source${secondary.length>1?'s':''}</span></button></div>`;
+      html+=`<div class="sources-grid hidden-sources" id="more-sources">`;
+      secondary.forEach((s,i)=>{html+=renderCard(s,i,i*80)});
+      html+=`</div>`;
+    }
+  }
+
+  /* === 3. HALAL.SH INSIGHTS === */
+  const hasEthical=r.ethical_screening&&r.ethical_screening.length;
+  const hasPurification=r.purification&&r.purification.length;
+  if(hasEthical||hasPurification){
+    const ethStatus=s=>{const m={pass:'pass',flagged:'flag',fail:'fail',concern:'flag',not_found:'na'};return m[(s||'').toLowerCase()]||'na'};
+    const ethLabel=s=>{const m={pass:'Pass',flagged:'Flagged',fail:'Concern',concern:'Concern',not_found:'N/A'};return m[(s||'').toLowerCase()]||s};
+    const statusIcon=s=>ethStatus(s)==='pass'
+      ?'<polyline points="20 6 9 17 4 12"></polyline>'
+      :ethStatus(s)==='flag'
+        ?'<path d="M4 21v-7"></path><path d="M4 14s4-3 8 0 8 0 8 0V4s-4 3-8 0-8 0-8 0z"></path>'
+        :'<path d="M12 9v4"></path><path d="M12 17h.01"></path>';
+    html+=`<div class="insights-grid">`;
+    if(hasEthical){
+      html+=`<section class="insight-panel glass"><div class="insight-head"><div class="insight-icon ethical"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M9 12l2 2 4-4"></path></svg></div><div><div class="insight-title">Ethical Screening</div><div class="insight-source">Halal.sh independent ethical review</div></div></div>`;
+      r.ethical_screening.forEach((e,i)=>{
+        const state=ethStatus(e.status);
+        html+=`<div class="ethical-card" style="animation-delay:${i*60}ms">
+        <div class="eth-top">
+          <span class="eth-icon ${state}"><svg viewBox="0 0 24 24">${statusIcon(e.status)}</svg></span>
+          <span class="eth-name">${esc(e.category)}</span>
+          <span class="eth-status ${state}">${ethLabel(e.status)}</span>
+        </div>
+        ${e.details?`<div class="eth-detail">${esc(e.details)}</div>`:''}
+      </div>`;
+      });
+      html+=`</section>`;
+    }
+    if(hasPurification){
+      html+=`<section class="insight-panel glass"><div class="insight-head"><div class="insight-icon purification"><svg viewBox="0 0 24 24"><path d="M12 2v6m0 0l3-3m-3 3L9 5"></path><path d="M5 12h14"></path><path d="M12 16v6m0 0l3-3m-3 3l-3-3"></path></svg></div><div><div class="insight-title">Share Purification</div><div class="insight-source">Halal.sh income purification</div></div></div>`;
+      r.purification.forEach((p,i)=>{
+      const hasPct=p.percentage!==null&&p.percentage!==undefined&&p.percentage!=='N/A'&&p.percentage!=='null';
+      const pctVal=hasPct?parseFloat(p.percentage):null;
+      const display=pctVal!==null?pctVal.toFixed(2):null;
+      const perShare=p.per_share_year!==null&&p.per_share_year!==undefined?parseFloat(p.per_share_year):null;
+      const perThousand=p.per_1000_year!==null&&p.per_1000_year!==undefined?parseFloat(p.per_1000_year):null;
+      html+=`<div class="purif-card" style="animation-delay:${i*80}ms">
+        ${display!==null?`<div class="purif-pct">${display}<span class="pct-sign">%</span></div>`:`<div class="purif-na">N/A</div>`}
+        ${p.details?`<div class="purif-label">${esc(p.details)}</div>`:`<div class="purif-label">Purification ratio</div>`}
+        ${Number.isFinite(perShare)?`<div class="purif-amount">$${perShare.toFixed(2)} per share / year</div>`:''}
+        ${Number.isFinite(perThousand)?`<div class="purif-amount">$${perThousand.toFixed(2)} yearly per $1,000 invested</div>`:''}
+      </div>`;
+      });
+      html+=`</section>`;
+    }
+    html+=`</div>`;
+  }
+
+  area.innerHTML=html;
+
+  /* show capture and auto-suggest verdict */
+  const cap=document.getElementById('capture');cap.classList.add('show');
+  if(consensus!=='pending'){
+    draftVerdict=consensus;
+    document.querySelectorAll('.vpill').forEach(el=>{el.className='vpill'+(el.dataset.v===draftVerdict?' sel-'+draftVerdict:'')});
+  }
+  document.getElementById('capt-hint').textContent=`Save your verdict for ${ticker}`;
+  /* auto-fill note with AI summary + source details */
+  let noteText=r.summary||'';
+  if(r.sources){noteText+='\n\n'+r.sources.map(s=>`${s.platform}: ${s.verdict.toUpperCase()}${s.grade&&s.grade!=='null'?' ('+s.grade+')':''} — ${s.details||'no details'}`).join('\n')}
+  document.getElementById('note').value=noteText.trim();
+}
+
+function toggleMore(btn){
+  const el=document.getElementById('more-sources');
+  const isOpen=el.classList.toggle('show');
+  btn.classList.toggle('open',isOpen);
+  btn.querySelector('span').textContent=isOpen?'Hide':`${btn.dataset.count} more source${btn.dataset.count>1?'s':''}`;
+}
+
+/* ===== verdict ===== */
+function pickVerdict(v){draftVerdict=(draftVerdict===v)?'pending':v;document.querySelectorAll('.vpill').forEach(el=>{el.className='vpill'+(el.dataset.v===draftVerdict?' sel-'+draftVerdict:'')})}
+function renderTagRow(){const row=document.getElementById('tag-row');const f=document.getElementById('tag-field');row.querySelectorAll('.tag-pill').forEach(e=>e.remove());draftTags.forEach((t,i)=>{const s=document.createElement('span');s.className='tag-pill';s.innerHTML=`${esc(t)}<span class="x" onclick="draftTags.splice(${i},1);renderTagRow();event.stopPropagation()">✕</span>`;row.insertBefore(s,f)})}
+
+/* ===== save ===== */
 function saveEntry(){
-  const t=cleanTicker(document.getElementById('ticker').value);
+  const t=document.getElementById('ticker').value.trim().toUpperCase().replace(/\s+/g,'');
   if(!t){toast('Enter a ticker first');return}
   const note=document.getElementById('note').value.trim();
-  const idx=log.findIndex(e=>e.ticker===t);const prev=idx>=0?log[idx]:null;
-  const entry={ticker:t,verdict:draftVerdict,note,tags:[...draftTags],platforms:[...sel],starred:prev?prev.starred:false,created:prev?prev.created:Date.now(),updated:Date.now()};
-  if(idx>=0){log[idx]=entry;toast(`${t} updated`)}else{log.unshift(entry);toast(`${t} saved`)}
-  persist();resetDraft();render();updateStats();renderTagFilters();
+  const idx=logData.findIndex(e=>e.ticker===t);const prev=idx>=0?logData[idx]:null;
+  const aiSummary=lastResult?lastResult.sources.map(s=>`${s.platform}: ${s.verdict}`).join(' · '):'';
+  const entry={ticker:t,verdict:draftVerdict,note,tags:[...draftTags],aiSources:aiSummary,starred:prev?prev.starred:false,created:prev?prev.created:Date.now(),updated:Date.now()};
+  if(idx>=0){logData[idx]=entry;toast(`${t} updated`)}else{logData.unshift(entry);toast(`${t} saved`)}
+  persist();resetDraft();renderLog();updateStats();renderTagFilters();
 }
-function resetDraft(){
-  document.getElementById('note').value='';draftVerdict='pending';draftTags=[];
-  document.querySelectorAll('.vpill').forEach(el=>el.className='vpill');
-  renderTagRow();document.getElementById('capture-hint').textContent='Set a verdict, then save';
-}
+function resetDraft(){document.getElementById('note').value='';draftVerdict='pending';draftTags=[];document.querySelectorAll('.vpill').forEach(el=>el.className='vpill');renderTagRow();document.getElementById('capt-hint').textContent='Set verdict, then save'}
 
-function rescreen(t){document.getElementById('ticker').value=t;screenNow();window.scrollTo({top:0,behavior:'smooth'})}
+/* ===== log actions ===== */
+function rescreen(t){document.getElementById('ticker').value=t;doScreen();window.scrollTo({top:0,behavior:'smooth'})}
 function editEntry(t){
-  const e=log.find(x=>x.ticker===t);if(!e)return;
+  const e=logData.find(x=>x.ticker===t);if(!e)return;
   document.getElementById('ticker').value=t;document.getElementById('note').value=e.note||'';
   draftVerdict=e.verdict;draftTags=[...(e.tags||[])];
-  if(e.platforms&&e.platforms.length)sel=new Set(e.platforms);
   document.querySelectorAll('.vpill').forEach(el=>{el.className='vpill'+(el.dataset.v===draftVerdict&&draftVerdict!=='pending'?' sel-'+draftVerdict:'')});
-  renderTagRow();renderPlatforms();window.scrollTo({top:0,behavior:'smooth'});
-  document.getElementById('capture-hint').textContent=`Editing ${t}`;
+  renderTagRow();document.getElementById('capture').classList.add('show');
+  window.scrollTo({top:0,behavior:'smooth'});document.getElementById('capt-hint').textContent=`Editing ${t}`;
 }
-function toggleStar(t){const e=log.find(x=>x.ticker===t);if(e){e.starred=!e.starred;persist();render()}}
-function delEntry(t){if(!confirm(`Remove ${t} from your log?`))return;log=log.filter(e=>e.ticker!==t);persist();render();updateStats();renderTagFilters()}
+function toggleStar(t){const e=logData.find(x=>x.ticker===t);if(e){e.starred=!e.starred;persist();renderLog()}}
+function delEntry(t){if(!confirm(`Remove ${t}?`))return;logData=logData.filter(e=>e.ticker!==t);persist();renderLog();updateStats();renderTagFilters()}
 
-function setFilter(f){filter=(filter===f&&f!=='all')?'all':f;document.querySelectorAll('.stat').forEach(s=>s.classList.toggle('active',s.dataset.f===filter&&filter!=='all'));render()}
-function setTagFilter(tag){tagFilter=tagFilter===tag?null:tag;renderTagFilters();render()}
-function renderTagFilters(){
-  const all=[...new Set(log.flatMap(e=>e.tags||[]))].sort();
-  const row=document.getElementById('tag-filters');
-  if(!all.length){row.innerHTML='';return}
-  row.innerHTML=all.map(t=>`<span class="tf ${tagFilter===t?'on':''}" onclick="setTagFilter('${t.replace(/'/g,"\\'")}')">#${escapeHtml(t)}</span>`).join('');
-}
+/* ===== filters ===== */
+function setFilter(f){filter=(filter===f&&f!=='all')?'all':f;document.querySelectorAll('.stat').forEach(s=>s.classList.toggle('active',s.dataset.f===filter&&filter!=='all'));renderLog()}
+function setTagFilter(tag){tagFilter=tagFilter===tag?null:tag;renderTagFilters();renderLog()}
+function renderTagFilters(){const all=[...new Set(logData.flatMap(e=>e.tags||[]))].sort();const r=document.getElementById('tag-filters');if(!all.length){r.innerHTML='';return}r.innerHTML=all.map(t=>`<span class="tf ${tagFilter===t?'on':''}" onclick="setTagFilter('${t.replace(/'/g,"\\'")}')">#${esc(t)}</span>`).join('')}
+function updateStats(){document.getElementById('s-all').textContent=logData.length;document.getElementById('s-halal').textContent=logData.filter(e=>e.verdict==='halal').length;document.getElementById('s-doubtful').textContent=logData.filter(e=>e.verdict==='doubtful').length;document.getElementById('s-haram').textContent=logData.filter(e=>e.verdict==='haram').length}
 
-function updateStats(){
-  document.getElementById('s-all').textContent=log.length;
-  document.getElementById('s-halal').textContent=log.filter(e=>e.verdict==='halal').length;
-  document.getElementById('s-doubtful').textContent=log.filter(e=>e.verdict==='doubtful').length;
-  document.getElementById('s-haram').textContent=log.filter(e=>e.verdict==='haram').length;
-}
-
+/* ===== render log ===== */
 const VLABEL={halal:'Halal',haram:'Haram',doubtful:'Doubtful',pending:'No verdict'};
-const VICON={
-  halal:'<polyline points="20 6 9 17 4 12"></polyline>',
-  haram:'<line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>',
-  doubtful:'<path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path>',
-  pending:'<circle cx="12" cy="12" r="9"></circle><path d="M12 8v4"></path>'
-};
+const VICON={halal:'<polyline points="20 6 9 17 4 12"></polyline>',haram:'<line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>',doubtful:'<path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path>',pending:'<circle cx="12" cy="12" r="9"></circle><path d="M12 8v4"></path>'};
 function fmtDate(ts){return new Date(ts).toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'})}
-function pname(id){const p=PLATFORMS.find(p=>p.id===id);return p?p.name:id}
 
-function render(){
+function renderLog(){
   const q=document.getElementById('log-q').value.toLowerCase().trim();
   const sort=document.getElementById('sort-sel').value;
-  let data=log.slice();
+  let data=logData.slice();
   if(filter!=='all')data=data.filter(e=>e.verdict===filter);
   if(tagFilter)data=data.filter(e=>(e.tags||[]).includes(tagFilter));
   if(q)data=data.filter(e=>e.ticker.toLowerCase().includes(q)||(e.note||'').toLowerCase().includes(q)||(e.tags||[]).some(t=>t.toLowerCase().includes(q)));
@@ -531,103 +893,59 @@ function render(){
   else if(sort==='oldest')data.sort((a,b)=>a.updated-b.updated);
   else if(sort==='az')data.sort((a,b)=>a.ticker.localeCompare(b.ticker));
   else if(sort==='starred')data.sort((a,b)=>(b.starred-a.starred)||(b.updated-a.updated));
-
   const c=document.getElementById('log');
-  if(!data.length){
-    c.innerHTML=`<div class="empty"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><p>${log.length?'Nothing matches these filters.':'No stocks logged yet.<br>Screen a ticker and save your verdict.'}</p></div>`;
-    return;
-  }
+  if(!data.length){c.innerHTML=`<div class="empty"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><p>${logData.length?'Nothing matches.':'No stocks logged yet. Screen a ticker above.'}</p></div>`;return}
   c.innerHTML=data.map((e,i)=>`
-    <div class="card glass ${e.starred?'star':''}" style="animation-delay:${Math.min(i*40,320)}ms">
+    <div class="card glass ${e.starred?'star':''}" style="animation-delay:${Math.min(i*40,300)}ms">
       <div class="card-top">
         <span class="card-tk">${e.ticker}</span>
         <span class="badge ${e.verdict}"><svg viewBox="0 0 24 24">${VICON[e.verdict]}</svg>${VLABEL[e.verdict]}</span>
         <span class="card-date">${fmtDate(e.updated)}</span>
-        <span class="star-btn ${e.starred?'on':''}" onclick="toggleStar('${e.ticker}')" title="Watchlist">
-          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-        </span>
+        <button class="star-btn ${e.starred?'on':''}" onclick="toggleStar('${e.ticker}')"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
       </div>
-      ${(e.tags&&e.tags.length)?`<div class="card-tags">${e.tags.map(t=>`<span class="ctag" onclick="setTagFilter('${t.replace(/'/g,"\\'")}')">#${escapeHtml(t)}</span>`).join('')}</div>`:''}
-      ${e.note?`<div class="card-note">${escapeHtml(e.note)}</div>`:''}
-      ${(e.platforms&&e.platforms.length)?`<div class="card-plats">${e.platforms.map(id=>`<span class="cplat">${pname(id)}</span>`).join('')}</div>`:''}
+      ${(e.tags&&e.tags.length)?`<div class="card-tags">${e.tags.map(t=>`<span class="ctag" onclick="setTagFilter('${t.replace(/'/g,"\\'")}')">#${esc(t)}</span>`).join('')}</div>`:''}
+      ${e.note?`<div class="card-note">${esc(e.note)}</div>`:''}
+      ${e.aiSources?`<div class="card-src">${esc(e.aiSources)}</div>`:''}
       <div class="card-acts">
-        <button class="act primary" onclick="rescreen('${e.ticker}')"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>Re-screen</button>
+        <button class="act primary" onclick="rescreen('${e.ticker}')"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>Re-screen</button>
         <button class="act" onclick="editEntry('${e.ticker}')"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4z"></path></svg>Edit</button>
         <button class="act danger" onclick="delEntry('${e.ticker}')"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path></svg>Remove</button>
       </div>
     </div>`).join('');
 }
-function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 
-function backup(){
-  const payload={app:'halal-screen',version:3,exported:new Date().toISOString(),log,recents};
-  const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:'application/json'})),download:`halal-screen-backup-${new Date().toISOString().split('T')[0]}.json`});
-  a.click();closeSheet();toast('Backup downloaded')
-}
-function restore(ev){
-  const f=ev.target.files[0];if(!f)return;
-  const r=new FileReader();
-  r.onload=()=>{
-    try{
-      const d=JSON.parse(r.result);if(!d.log||!Array.isArray(d.log))throw 0;
-      if(log.length&&!confirm(`Merge ${d.log.length} backed-up entries with your current ${log.length}? Newer versions win on conflicts.`)){ev.target.value='';return}
-      const map={};log.forEach(e=>map[e.ticker]=e);
-      d.log.forEach(e=>{const ex=map[e.ticker];if(!ex||(e.updated||0)>(ex.updated||0))map[e.ticker]=e});
-      log=Object.values(map);
-      if(d.recents)recents=[...new Set([...d.recents,...recents])].slice(0,6);
-      persist();render();updateStats();renderTagFilters();renderRecents();closeSheet();toast('Data restored')
-    }catch(e){toast('Could not read that file')}
-    ev.target.value='';
-  };
-  r.readAsText(f);
-}
-function exportCSV(){
-  if(!log.length){toast('Nothing to export');return}
-  const rows=[['Ticker','Verdict','Starred','Date','Tags','Platforms','Notes']];
-  log.forEach(e=>rows.push([e.ticker,e.verdict,e.starred?'yes':'',fmtDate(e.updated),(e.tags||[]).join('; '),(e.platforms||[]).map(pname).join('; '),(e.note||'').replace(/"/g,'""')]));
-  const csv=rows.map(r=>r.map(c=>`"${c}"`).join(',')).join('\n');
-  const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([csv],{type:'text/csv'})),download:'halal-screen-log.csv'});
-  a.click();closeSheet();toast('CSV exported')
-}
-function clearAll(){
-  if(!confirm('Delete ALL logged stocks and history on this device? Cannot be undone — back up first.'))return;
-  log=[];recents=[];filter='all';tagFilter=null;persist();render();updateStats();renderTagFilters();renderRecents();closeSheet();toast('All data cleared')
-}
+/* ===== backup/restore/export ===== */
+function backup(){const p={app:'halal-screen',version:4,exported:new Date().toISOString(),log:logData,recents};const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([JSON.stringify(p,null,2)],{type:'application/json'})),download:`halal-screen-backup-${new Date().toISOString().split('T')[0]}.json`});a.click();closeSheet();toast('Backup downloaded')}
+function restoreData(ev){const f=ev.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.log)throw 0;if(logData.length&&!confirm(`Merge ${d.log.length} entries with your ${logData.length}?`)){ev.target.value='';return}const m={};logData.forEach(e=>m[e.ticker]=e);d.log.forEach(e=>{const x=m[e.ticker];if(!x||(e.updated||0)>(x.updated||0))m[e.ticker]=e});logData=Object.values(m);if(d.recents)recents=[...new Set([...d.recents,...recents])].slice(0,6);persist();renderLog();updateStats();renderTagFilters();renderRecents();closeSheet();toast('Restored')}catch(e){toast('Bad file')}ev.target.value=''};r.readAsText(f)}
+function exportCSV(){if(!logData.length){toast('Nothing to export');return}const rows=[['Ticker','Verdict','Starred','Date','Tags','AI Sources','Notes']];logData.forEach(e=>rows.push([e.ticker,e.verdict,e.starred?'yes':'',fmtDate(e.updated),(e.tags||[]).join('; '),e.aiSources||'',(e.note||'').replace(/"/g,'""')]));const csv=rows.map(r=>r.map(c=>`"${c}"`).join(',')).join('\n');const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([csv],{type:'text/csv'})),download:'halal-screen-log.csv'});a.click();closeSheet();toast('Exported')}
+function clearAll(){if(!confirm('Delete ALL data? Back up first.'))return;logData=[];recents=[];filter='all';tagFilter=null;persist();renderLog();updateStats();renderTagFilters();renderRecents();closeSheet();toast('Cleared')}
 
+/* ===== sheets ===== */
 function openSheet(id){document.getElementById('scrim').classList.add('show');document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('show'));document.getElementById('sheet-'+id).classList.add('show')}
 function closeSheet(){document.getElementById('scrim').classList.remove('show');document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('show'))}
 
+/* ===== keyboard ===== */
 const cmd=document.querySelector('.cmd');
 document.getElementById('ticker').addEventListener('focus',()=>cmd.classList.add('focused'));
 document.getElementById('ticker').addEventListener('blur',()=>cmd.classList.remove('focused'));
-
 document.addEventListener('keydown',e=>{
   const tag=document.activeElement.tagName;const typing=tag==='INPUT'||tag==='TEXTAREA';
   if(e.key==='Escape'){closeSheet();document.activeElement.blur();return}
   if(e.key==='/'&&!typing){e.preventDefault();document.getElementById('ticker').focus();return}
   if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='s'){e.preventDefault();saveEntry();return}
-  if(document.activeElement.id==='ticker'&&e.key==='Enter'){e.preventDefault();screenNow();return}
-  if(!typing){
-    if(e.key.toLowerCase()==='h')pickVerdict('halal');
-    else if(e.key.toLowerCase()==='d')pickVerdict('doubtful');
-    else if(e.key.toLowerCase()==='x')pickVerdict('haram');
-  }
+  if(document.activeElement.id==='ticker'&&e.key==='Enter'){e.preventDefault();doScreen();return}
+  if(!typing){if(e.key.toLowerCase()==='h')pickVerdict('halal');else if(e.key.toLowerCase()==='d')pickVerdict('doubtful');else if(e.key.toLowerCase()==='x')pickVerdict('haram')}
 });
-
 document.addEventListener('DOMContentLoaded',()=>{
-  const field=document.getElementById('tag-field');
-  field.addEventListener('keydown',e=>{
-    if(e.key==='Enter'&&field.value.trim()){e.preventDefault();const v=field.value.trim().replace(/,/g,'');if(v&&!draftTags.includes(v)){draftTags.push(v);renderTagRow()}field.value=''}
-    if(e.key==='Backspace'&&!field.value&&draftTags.length){draftTags.pop();renderTagRow()}
+  const f=document.getElementById('tag-field');
+  f.addEventListener('keydown',e=>{
+    if(e.key==='Enter'&&f.value.trim()){e.preventDefault();const v=f.value.trim().replace(/,/g,'');if(v&&!draftTags.includes(v)){draftTags.push(v);renderTagRow()}f.value=''}
+    if(e.key==='Backspace'&&!f.value&&draftTags.length){draftTags.pop();renderTagRow()}
   });
 });
 
-load();renderPlatforms();renderRecents();render();updateStats();renderTagFilters();
-
-if('serviceWorker'in navigator){
-  const sw=`self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>self.clients.claim());self.addEventListener('fetch',e=>{});`;
-  try{navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'text/javascript'}))).catch(()=>{})}catch(e){}
-}
+load();renderRecents();renderLog();updateStats();renderTagFilters();
+if('serviceWorker'in navigator){try{navigator.serviceWorker.register(URL.createObjectURL(new Blob([`self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>self.clients.claim());self.addEventListener('fetch',e=>{});`],{type:'text/javascript'}))).catch(()=>{})}catch(e){}}
 </script>
 </body>
 </html>
